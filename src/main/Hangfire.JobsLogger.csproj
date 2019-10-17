@@ -1,28 +1,30 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.3</TargetFramework>
+    <TargetFrameworks>netstandard1.3;net45</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>0.0.1</Version>
     <Authors>RaisedApp</Authors>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/raisedapp/Hangfire.JobsLogger</PackageProjectUrl>
     <RepositoryUrl>https://github.com/raisedapp/Hangfire.JobsLogger</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
 
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+  </ItemGroup>
+
   <ItemGroup>
-    <None Include="..\..\..\LICENSE">
+    <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="" />
-  </Target>
-
 </Project>
