@@ -42,6 +42,12 @@ namespace Hangfire.JobsLogger.Logger
             };
 
             //TODO: Write Log in Hangfire Storage
+            WriteLog(logMessage);
+        }
+
+        private void WriteLog(LogMessage logMessage) 
+        {
+
         }
     }
 }
