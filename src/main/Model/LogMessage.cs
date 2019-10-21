@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Hangfire.JobsLogger.Logger
+namespace Hangfire.JobsLogger.Model
 {
     public class LogMessage
     {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hangfire.JobsLogger.Server;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,6 +13,9 @@ namespace Hangfire.JobsLogger
             if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
             options = options ?? new JobsLoggerOptions();
+
+            // register server filter for jobs
+            GlobalJobFilters.Filters.Add(new JobsLoggerFilter(options));
 
             return configuration;
         }
