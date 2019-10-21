@@ -8,9 +8,12 @@ namespace Hangfire.JobsLogger.Logger
 {
     internal class LoggerContext : ILogger
     {
+        private static PerformContext _context;
+
         public static LoggerContext FromPerformContext(PerformContext context)
         {
-            return context?.Items["LoggerContext"] as LoggerContext ?? null;
+            _context = context;
+            return _context?.Items["LoggerContext"] as LoggerContext ?? null;
         }
 
         public IDisposable BeginScope<TState>(TState state)
@@ -20,7 +23,7 @@ namespace Hangfire.JobsLogger.Logger
 
         public bool IsEnabled(LogLevel logLevel)
         {
-            return true;
+            return logLevel != LogLevel.None;
         }
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
@@ -30,8 +33,15 @@ namespace Hangfire.JobsLogger.Logger
                 return;
             }
 
+            LogMessage logMessage = new LogMessage() 
+            {
+                JobId = string.Empty,
+                LogLevel = logLevel,
+                DateCreation = DateTime.UtcNow,
+                Message = string.Empty
+            };
 
-            
+            //TODO: Write Log in Hangfire Storage
         }
     }
 }
