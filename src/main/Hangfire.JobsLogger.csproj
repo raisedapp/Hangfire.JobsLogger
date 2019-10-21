@@ -37,4 +37,8 @@
       <Version>3.0.0</Version>
     </PackageReference>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Dashboard\" />
+  </ItemGroup>
 </Project>
