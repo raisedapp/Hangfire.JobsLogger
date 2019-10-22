@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hangfire.JobsLogger", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hangfire.JobsLogger.ExampleNET", "src\samples\Hangfire.JobsLogger.ExampleNET\Hangfire.JobsLogger.ExampleNET.csproj", "{95BE2550-622D-448B-A11B-C5EDCDF06C2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hangfire.JobsLogger.ExampleCore", "src\samples\Hangfire.JobsLogger.ExampleCore\Hangfire.JobsLogger.ExampleCore.csproj", "{4A72E580-5E6B-4C6B-A5D7-EE660607B5AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hangfire.JobsLogger.ExampleCore", "src\samples\Hangfire.JobsLogger.ExampleCore\Hangfire.JobsLogger.ExampleCore.csproj", "{4A72E580-5E6B-4C6B-A5D7-EE660607B5AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hangfire.JobsLogger.ExampleShared", "src\samples\Hangfire.JobsLogger.ExampleShared\Hangfire.JobsLogger.ExampleShared.csproj", "{282E15FE-A782-4A5C-AE78-5D7D7BC5D0A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{4A72E580-5E6B-4C6B-A5D7-EE660607B5AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A72E580-5E6B-4C6B-A5D7-EE660607B5AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A72E580-5E6B-4C6B-A5D7-EE660607B5AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{282E15FE-A782-4A5C-AE78-5D7D7BC5D0A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{282E15FE-A782-4A5C-AE78-5D7D7BC5D0A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{282E15FE-A782-4A5C-AE78-5D7D7BC5D0A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{282E15FE-A782-4A5C-AE78-5D7D7BC5D0A8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

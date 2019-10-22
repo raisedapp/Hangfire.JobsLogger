@@ -51,10 +51,10 @@ namespace Hangfire.JobsLogger
         {
             try
             {
-                if (context.Items[Common.LoggerContextName] is LoggerContext loggerContext &&
-                    loggerContext.IsEnabled())
+                lock (_lock)
                 {
-                    lock (_lock)
+                    if (context.Items[Common.LoggerContextName] is LoggerContext loggerContext && 
+                        loggerContext.IsEnabled())
                     {
                         using (var connection = context.Storage.GetConnection())
                         using (var writeTransaction = connection.CreateWriteTransaction())
