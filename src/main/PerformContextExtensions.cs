@@ -4,9 +4,11 @@ using Hangfire.JobsLogger.Server;
 using Hangfire.Server;
 using Hangfire.Storage;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 
 namespace Hangfire.JobsLogger
@@ -57,26 +59,49 @@ namespace Hangfire.JobsLogger
                         using (var connection = context.Storage.GetConnection())
                         using (var writeTransaction = connection.CreateWriteTransaction())
                         {
-                            var logData = new LogMessage()
+                            var jobId = context.BackgroundJob.Id;
+
+                            var logMessageModel = new LogMessage
                             {
-                                JobId = context.BackgroundJob.Id,
+                                JobId = jobId,
                                 LogLevel = logLevel,
                                 DateCreation = DateTime.UtcNow,
                                 Message = logMessage
                             };
 
-                            var key = $"Logger_JobId={logData.JobId}_LogLevel={logLevel}_LogId={Guid.NewGuid().ToString()}";
-
-                            var values = new Dictionary<string, string>
+                            var logData = new List<LogMessage>
                             {
-                                [key] = SerializationHelper.Serialize(logData)
+                                logMessageModel
                             };
 
-                            writeTransaction.SetRangeInHash(key, values);
+                            var key = Utils.GetKeyName(jobId);
+                            var oldValues = connection.GetAllEntriesFromHash(key);
+                            var logSerialization = SerializationHelper.Serialize(logData);
+
+                            string value = string.Empty;
+
+                            if (oldValues != null && oldValues.Any())
+                            {
+                                var logArray = JArray.Parse(oldValues.FirstOrDefault().Value);
+                                logArray.Add(JObject.Parse(SerializationHelper.Serialize(logMessageModel)));
+
+                                value = logArray.ToString(Newtonsoft.Json.Formatting.None);
+                            }
+                            else
+                            {
+                                value = logSerialization;
+                            }
+
+                            var dictionary = new Dictionary<string, string>
+                            {
+                                [key] = value
+                            };
+
+                            writeTransaction.SetRangeInHash(key, dictionary);
 
                             if (writeTransaction is JobStorageTransaction jsTransaction)
                             {
-                                jsTransaction.ExpireHash(key, TimeSpan.FromDays(1));
+                                jsTransaction.ExpireHash(key, loggerContext.GetOptions().ExpireIn);
                             }
 
                             writeTransaction.Commit();

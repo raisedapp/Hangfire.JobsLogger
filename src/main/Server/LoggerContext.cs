@@ -24,6 +24,11 @@ namespace Hangfire.JobsLogger.Server
             return _context?.Items[Common.LoggerContextName] as LoggerContext ?? null;
         }
 
+        public JobsLoggerOptions GetOptions() 
+        {
+            return _options;
+        }
+
         public bool IsEnabled()
         {
             return _options.LogLevel != LogLevel.None;

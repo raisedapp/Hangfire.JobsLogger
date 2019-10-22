@@ -49,12 +49,12 @@ namespace Hangfire.JobsLogger.ExampleCore
 
         public void TaskMethod(PerformContext context)
         {
-            context.LogTrace("Trace");
-            context.LogDebug("Debug");
-            context.LogInformation("Information");
-            context.LogWarning("Warning");
-            context.LogError("Error");
-            context.LogCritical("Critical");
+            context.LogTrace($"Trace Message.. {DateTime.UtcNow.Ticks}");
+            context.LogDebug($"Debug Message.. {DateTime.UtcNow.Ticks}");
+            context.LogInformation($"Information Message.. {DateTime.UtcNow.Ticks}");
+            context.LogWarning($"Warning Message.. {DateTime.UtcNow.Ticks}");
+            context.LogError($"Error Message.. {DateTime.UtcNow.Ticks}");
+            context.LogCritical($"Critical Message.. {DateTime.UtcNow.Ticks}");
         }
     }
 }
