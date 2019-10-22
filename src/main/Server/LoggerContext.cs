@@ -15,8 +15,6 @@ namespace Hangfire.JobsLogger.Server
         private static PerformContext _context;
         private static JobsLoggerOptions _options;
 
-        public static JobsLoggerOptions Options { get; } = _options;
-
         public static LoggerContext FromPerformContext(PerformContext context, 
             JobsLoggerOptions options)
         {

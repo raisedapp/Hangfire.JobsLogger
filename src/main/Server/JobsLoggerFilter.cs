@@ -13,18 +13,11 @@ namespace Hangfire.JobsLogger.Server
 
         public JobsLoggerFilter(JobsLoggerOptions options) 
         {
-            _options = options;
+            _options = options ?? new JobsLoggerOptions();
         }
 
-        public void OnPerformed(PerformedContext filterContext)
+        public void OnPerforming(PerformingContext filterContext)
         {
-            var state = filterContext.Connection.GetStateData(filterContext.BackgroundJob.Id);
-
-            //if (state == null) return;
-
-            //if (!string.Equals(state.Name, ProcessingState.StateName,
-            //    StringComparison.OrdinalIgnoreCase)) return;
-
             var loggerContext = new LoggerContext();
 
             filterContext.Items[Common.LoggerContextName] = loggerContext;
@@ -32,7 +25,7 @@ namespace Hangfire.JobsLogger.Server
             LoggerContext.FromPerformContext(filterContext, _options);
         }
 
-        public void OnPerforming(PerformingContext filterContext)
+        public void OnPerformed(PerformedContext filterContext)
         {
             filterContext.Items.Remove(Common.LoggerContextName);
         }

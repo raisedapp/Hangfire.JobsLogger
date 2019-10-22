@@ -6,6 +6,7 @@ using Hangfire.Storage;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 
 namespace Hangfire.JobsLogger
@@ -46,36 +47,46 @@ namespace Hangfire.JobsLogger
 
         public static void Log(this PerformContext context, LogLevel logLevel, string logMessage)
         {
-            if (context.Items[Common.LoggerContextName] is LoggerContext loggerContext && loggerContext.IsEnabled())
+            try
             {
-                lock (_lock)
+                if (context.Items[Common.LoggerContextName] is LoggerContext loggerContext &&
+                    loggerContext.IsEnabled())
                 {
-                    using (var connection = context.Storage.GetConnection())
-                    using (var writeTransaction = connection.CreateWriteTransaction())
+                    lock (_lock)
                     {
-                        var logData = new LogMessage()
+                        using (var connection = context.Storage.GetConnection())
+                        using (var writeTransaction = connection.CreateWriteTransaction())
                         {
-                            JobId = context.BackgroundJob.Id,
-                            LogLevel = logLevel,
-                            DateCreation = DateTime.UtcNow,
-                            Message = logMessage
-                        };
+                            var logData = new LogMessage()
+                            {
+                                JobId = context.BackgroundJob.Id,
+                                LogLevel = logLevel,
+                                DateCreation = DateTime.UtcNow,
+                                Message = logMessage
+                            };
 
-                        var key = Guid.NewGuid().ToString();
+                            var key = $"Logger_JobId={logData.JobId}_LogLevel={logLevel}_LogId={Guid.NewGuid().ToString()}";
 
-                        var values = new Dictionary<string, string>
-                        {
-                            [key] = SerializationHelper.Serialize(logData)
-                        };
+                            var values = new Dictionary<string, string>
+                            {
+                                [key] = SerializationHelper.Serialize(logData)
+                            };
 
-                        writeTransaction.SetRangeInHash(key, values);
+                            writeTransaction.SetRangeInHash(key, values);
 
-                        if (writeTransaction is JobStorageTransaction jsTransaction)
-                        {
-                            jsTransaction.ExpireHash(key, LoggerContext.Options.ExpireIn);
+                            if (writeTransaction is JobStorageTransaction jsTransaction)
+                            {
+                                jsTransaction.ExpireHash(key, TimeSpan.FromDays(1));
+                            }
+
+                            writeTransaction.Commit();
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error Write Log. Message = {ex.Message}, StackTrace = {ex.ToString()}");
             }
         }
     }
