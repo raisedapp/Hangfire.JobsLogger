@@ -22,6 +22,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Dashboard\Pages\Html\Logger.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Dashboard\Pages\Html\Logger.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
@@ -30,10 +38,26 @@
 
   <ItemGroup>
     <PackageReference Include="HangFire.Core" Version="1.7.6" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" /> 
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
+    <PackageReference Include="RazorGenerator.Mvc" Version="2.4.9" /> 
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dashboard\" />
+    <Folder Include="Dashboard\Pages\Content\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Dashboard\Pages\Html\Logging.generated.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Logging.cshtml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Dashboard\Pages\Html\Logging.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>Logging.generated.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 </Project>
