@@ -101,7 +101,7 @@ namespace Hangfire.JobsLogger
 
                             if (writeTransaction is JobStorageTransaction jsTransaction)
                             {
-                                jsTransaction.ExpireHash(key, loggerContext.GetOptions().ExpireIn);
+                                jsTransaction.ExpireHash(key, context.Storage.JobExpirationTimeout);
                             }
 
                             writeTransaction.Commit();

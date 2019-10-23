@@ -17,6 +17,8 @@ namespace Hangfire.JobsLogger
             // register server filter for jobs
             GlobalJobFilters.Filters.Add(new JobsLoggerFilter(options));
 
+            //TODO: Controllers - UI - Routing
+
             return configuration;
         }
     }
