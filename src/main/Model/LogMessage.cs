@@ -10,7 +10,6 @@ namespace Hangfire.JobsLogger.Model
     {
         public string JobId { get; set; }
 
-        [JsonProperty(NullValueHandling = NullValueHandling.Include)]
         public LogLevel LogLevel { get; set; }
 
         public DateTime DateCreation { get; set; }

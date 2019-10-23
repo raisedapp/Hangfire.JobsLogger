@@ -1,10 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>RaisedApp</Authors>
     <PackageProjectUrl>https://github.com/raisedapp/Hangfire.JobsLogger</PackageProjectUrl>
     <RepositoryUrl>https://github.com/raisedapp/Hangfire.JobsLogger</RepositoryUrl>
+    <Copyright>Copyright ©  2019</Copyright>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>

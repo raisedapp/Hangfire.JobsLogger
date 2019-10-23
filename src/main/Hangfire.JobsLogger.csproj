@@ -3,12 +3,15 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net47</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
     <Authors>RaisedApp</Authors>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/raisedapp/Hangfire.JobsLogger</PackageProjectUrl>
     <RepositoryUrl>https://github.com/raisedapp/Hangfire.JobsLogger</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <Description>A Hangfire extension to store a log during job execution</Description>
+    <Copyright>Copyright ©  2019</Copyright>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
