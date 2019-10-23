@@ -15,6 +15,7 @@ branches:
     - master
     - develop
 script:
+  - ulimit -n 2048    
   - dotnet restore "src\main" 
   - dotnet build "src\main" -f netstandard2.0
   - dotnet restore "src\test"
