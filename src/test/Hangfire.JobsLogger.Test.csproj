@@ -11,9 +11,11 @@
 
     <RepositoryUrl>https://github.com/raisedapp/Hangfire.JobsLogger</RepositoryUrl>
 
-    <RepositoryType>Git</RepositoryType>
+    <RepositoryType>git</RepositoryType>
 
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+
+    <Copyright>Copyright ©  2019</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
