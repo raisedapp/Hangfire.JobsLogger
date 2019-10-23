@@ -1,0 +1,28 @@
+﻿@* Generator: Template TypeVisibility: Internal GeneratePrettyNames: True *@
+@using System
+@using System.Linq
+@using System.Text.RegularExpressions
+@using Hangfire.Dashboard
+@using Hangfire.Dashboard.Pages
+@using Hangfire.Dashboard.Resources
+@inherits RazorPage
+@{
+    Layout = new LayoutPage("Logging");
+
+    int.TryParse(Query("from"), out var from);
+    int.TryParse(Query("count"), out var perPage);
+
+}
+
+
+<div class="row">
+    <div class="col-md-3">
+        @Html.JobsSidebar()
+    </div>
+    <div class="col-md-9">
+        <h1 class="page-header">Logs 0</h1>
+        <div class="tags">
+            There are no Logs found yet.
+        </div>
+    </div>
+</div>

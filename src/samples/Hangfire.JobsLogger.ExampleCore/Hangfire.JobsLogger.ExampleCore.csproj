@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="HangFire" Version="1.7.6" />
+    <PackageReference Include="Hangfire.Console" Version="1.4.2" />
     <PackageReference Include="Hangfire.LiteDB" Version="0.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
