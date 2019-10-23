@@ -4,6 +4,7 @@ using Hangfire.JobsLogger.Server;
 using Hangfire.Server;
 using Hangfire.Storage;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -111,8 +112,32 @@ namespace Hangfire.JobsLogger
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error Write Log. Message = {ex.Message}, StackTrace = {ex.ToString()}");
+                Debug.WriteLine($"Error Write Log. Exception Message = {ex.Message}, StackTrace = {ex.ToString()}");
             }
+        }
+
+        internal static IEnumerable<LogMessage> GetLogMessagesByJobId(this PerformContext context, string jobId)
+        {
+            var logMessages = new List<LogMessage>();
+
+            try
+            {
+                using (var connection = context.Storage.GetConnection())
+                {
+                    var key = Utils.GetKeyName(jobId);
+                    var dictionaryMessages = connection.GetAllEntriesFromHash(key);
+                    var jsonArray = dictionaryMessages.FirstOrDefault().Value;
+
+                    logMessages.AddRange(JsonConvert.DeserializeObject<List<LogMessage>>(jsonArray));
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Debug.WriteLine($"Error Read Log Messages. Exception Message = {ex.Message}, StackTrace = {ex.ToString()}");
+            }
+
+            return logMessages;
         }
     }
 }
