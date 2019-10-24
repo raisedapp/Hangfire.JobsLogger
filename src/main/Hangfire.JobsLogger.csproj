@@ -18,10 +18,10 @@
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net47' ">
   </ItemGroup>
 
   <ItemGroup>
@@ -37,7 +37,7 @@
 
   <ItemGroup>
     <PackageReference Include="HangFire.Core" Version="1.7.6" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" />
     <PackageReference Include="RazorGenerator.Mvc" Version="2.4.9" Condition="'$(TargetFramework)' == 'net47'"/> 
   </ItemGroup>
 
