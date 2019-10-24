@@ -18,7 +18,9 @@ namespace Hangfire.JobsLogger
 
             options = options ?? new JobsLoggerOptions();
 
+            GlobalJobFilters.Filters.Add(new JobsLoggerFilter(options));
 
+            //TODO: Controllers - UI - Routing
             //JobHistoryRenderer.Register(ProcessingState.StateName, new ProcessingStateRenderer().Render);
 
             DashboardRoutes.Routes.AddRazorPage("/jobs/Logging/search(/.+)?", x => new Dashboard.Pages.Html.Logging());
@@ -38,9 +40,6 @@ namespace Hangfire.JobsLogger
             //JobHistoryRenderer.Register("Loggin", new ProcessingStateRenderer().Render);
 
             // register server filter for jobs
-            GlobalJobFilters.Filters.Add(new JobsLoggerFilter(options));
-
-            //TODO: Controllers - UI - Routing
 
             return configuration;
         }
