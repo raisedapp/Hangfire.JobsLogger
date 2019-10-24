@@ -3,7 +3,7 @@
 ## Build Status
 `Platform` | `Master` | `Develop`
 --- | --- | ---
-**Windows** | [![Build Status](https://travis-ci.org/raisedapp/Hangfire.JobsLogger.svg?branch=master)](https://travis-ci.org/raisedapp/Hangfire.JobsLogger/) | [![Build Status](https://travis-ci.org/raisedapp/Hangfire.JobsLogger.svg?branch=develop)](https://travis-ci.org/raisedapp/Hangfire.JobsLogger/)
+**Windows** | [![Build Status](https://ci.appveyor.com/api/projects/status/254pepk2j7s823f7/branch/master?svg=true)](https://ci.appveyor.com/project/felixclase/hangfire-jobslogger/) | [![Build Status](https://ci.appveyor.com/api/projects/status/254pepk2j7s823f7/branch/develop?svg=true)](https://ci.appveyor.com/project/felixclase/hangfire-jobslogger/)
 **Linux / Mac OS** | [![Build Status](https://travis-ci.org/raisedapp/Hangfire.JobsLogger.svg?branch=master)](https://travis-ci.org/raisedapp/Hangfire.JobsLogger/) | [![Build Status](https://travis-ci.org/raisedapp/Hangfire.JobsLogger.svg?branch=develop)](https://travis-ci.org/raisedapp/Hangfire.JobsLogger/)
 
 ## Overview
