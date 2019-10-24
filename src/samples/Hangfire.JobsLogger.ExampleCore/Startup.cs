@@ -1,4 +1,5 @@
-﻿using Hangfire.JobsLogger.ExampleShared;
+﻿using Hangfire.Console;
+using Hangfire.JobsLogger.ExampleShared;
 using Hangfire.LiteDB;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,6 +20,7 @@ namespace Hangfire.JobsLogger.ExampleCore
                 .UseSimpleAssemblyNameTypeSerializer()
                 .UseRecommendedSerializerSettings()
                 .UseJobsLogger()
+                .UseConsole()
                 .UseLiteDbStorage());
 
             services.AddHangfireServer();
@@ -43,6 +45,8 @@ namespace Hangfire.JobsLogger.ExampleCore
             var taskExample = new TaskExample();
 
             RecurringJob.AddOrUpdate(() => taskExample.TaskMethod(null), Cron.Minutely);
+
+            //RecurringJob.AddOrUpdate(() => System.Console.WriteLine(""), Cron.Minutely);
         }
     }
 }
