@@ -10,10 +10,6 @@ matrix:
       sudo: required
       dotnet: 2.1.400
       mono: none
-branches:
-  only:
-    - master
-    - develop
 script:
   - ulimit -n 2048    
   - dotnet restore "src\main" 
