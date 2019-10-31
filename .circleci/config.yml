@@ -5,11 +5,6 @@ orbs:
 
 jobs:
   build:
-    filters:
-      branches:
-        only:
-          - master
-          - develop
     executor:
       name: win/vs2019
       shell: powershell.exe
