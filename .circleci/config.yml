@@ -4,6 +4,10 @@ orbs:
   win: circleci/windows@1.0.0
 
 jobs:
+  branches:
+    only:
+      - master
+      - develop
   build:
     executor:
       name: win/vs2019

@@ -14,8 +14,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DB9661BF-8F19-43E1-BB08-D1BB1C480E20}"
 	ProjectSection(SolutionItems) = preProject
 		.travis.yml = .travis.yml
-		appveyor.yml = appveyor.yml
 		Build.ps1 = Build.ps1
+		.circleci\config.yml = .circleci\config.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hangfire.JobsLogger.Test", "src\test\Hangfire.JobsLogger.Test.csproj", "{AEFCBB82-CEFB-4D44-B6FB-CD59D5549476}"
