@@ -14,7 +14,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DB9661BF-8F19-43E1-BB08-D1BB1C480E20}"
 	ProjectSection(SolutionItems) = preProject
 		.travis.yml = .travis.yml
-		Build.ps1 = Build.ps1
 		.circleci\config.yml = .circleci\config.yml
 	EndProjectSection
 EndProject
