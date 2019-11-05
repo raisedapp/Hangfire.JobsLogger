@@ -75,7 +75,10 @@ namespace Hangfire.JobsLogger
                                 logMessageModel
                             };
 
-                            var key = Utils.GetKeyName(jobId);
+                            //TODO: Add Pages Logics
+                            string currentPage = string.Empty;
+
+                            var key = Utils.GetKeyName(currentPage, jobId);
                             var oldValues = connection.GetAllEntriesFromHash(key);
                             var logSerialization = SerializationHelper.Serialize(logData);
 
@@ -86,7 +89,7 @@ namespace Hangfire.JobsLogger
                                 var logArray = JArray.Parse(oldValues.FirstOrDefault().Value);
                                 logArray.Add(JObject.Parse(SerializationHelper.Serialize(logMessageModel)));
 
-                                value = logArray.ToString(Newtonsoft.Json.Formatting.None);
+                                value = logArray.ToString(Formatting.None);
                             }
                             else
                             {
@@ -124,7 +127,7 @@ namespace Hangfire.JobsLogger
             {
                 using (var connection = context.Storage.GetConnection())
                 {
-                    var key = Utils.GetKeyName(jobId);
+                    var key = Utils.GetKeyName(string.Empty, jobId);
                     var dictionaryMessages = connection.GetAllEntriesFromHash(key);
                     var jsonArray = dictionaryMessages.FirstOrDefault().Value;
 
@@ -133,7 +136,6 @@ namespace Hangfire.JobsLogger
             }
             catch (Exception ex)
             {
-
                 Debug.WriteLine($"Error Read Log Messages. Exception Message = {ex.Message}, StackTrace = {ex.ToString()}");
             }
 
