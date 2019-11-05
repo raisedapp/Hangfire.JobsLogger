@@ -52,12 +52,11 @@ namespace Hangfire.JobsLogger
         {
             try
             {
-                lock (_lock)
+                if (context.Items[Common.LoggerContextName] is LoggerContext loggerContext && 
+                    loggerContext.IsEnabled())
                 {
-                    if (context.Items[Common.LoggerContextName] is LoggerContext loggerContext && 
-                        loggerContext.IsEnabled())
+                    using (var connection = context.Storage.GetConnection()) 
                     {
-                        var connection = context.Storage.GetConnection();
                         var jobExpirationTimeout = context.Storage.JobExpirationTimeout;
                         var jobId = context.BackgroundJob.Id;
 

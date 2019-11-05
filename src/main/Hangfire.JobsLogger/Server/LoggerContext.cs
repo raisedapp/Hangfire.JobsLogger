@@ -1,4 +1,5 @@
 ﻿using Hangfire.Common;
+using Hangfire.JobsLogger.Extensions;
 using Hangfire.JobsLogger.Model;
 using Hangfire.Server;
 using Hangfire.Storage;
@@ -44,43 +45,22 @@ namespace Hangfire.JobsLogger.Server
                     Message = logMessage
                 };
 
-                var logData = new List<LogMessage>
-                {
-                    logMessageModel
-                };
-
                 string counterName = Utils.GetCounterName(jobId);
                 var counterOldValue = connection.GetAllEntriesFromHash(counterName);
-                int counterValue = counterOldValue != null && counterOldValue.Any() ? int.Parse(counterOldValue.FirstOrDefault().Value) : 0;
+                int counterValue = counterOldValue != null && counterOldValue.Any() ? 
+                    int.Parse(counterOldValue.FirstOrDefault().Value) : 0;
 
-                int currentPage = counterValue;//TODO
-
-                var keyName = Utils.GetKeyName(currentPage, jobId);
-                var oldValues = connection.GetAllEntriesFromHash(keyName);
-                var logSerialization = SerializationHelper.Serialize(logData);
-
-                string value = string.Empty;
-
-                if (oldValues != null && oldValues.Any())
-                {
-                    var logArray = JArray.Parse(oldValues.FirstOrDefault().Value);
-                    logArray.Add(JObject.Parse(SerializationHelper.Serialize(logMessageModel)));
-
-                    value = logArray.ToString(Formatting.None);
-                }
-                else
-                {
-                    value = logSerialization;
-                }
+                var keyName = Utils.GetKeyName(++counterValue, jobId);
+                var logSerialization = SerializationHelper.Serialize(logMessageModel);
 
                 var dictionaryLog = new Dictionary<string, string>
                 {
-                    [keyName] = value
+                    [keyName] = logSerialization
                 };
 
                 var dictionaryLogCounter = new Dictionary<string, string>
                 {
-                    [counterName] = Convert.ToString(++counterValue)
+                    [counterName] = Convert.ToString(counterValue)
                 };
 
                 writeTransaction.SetRangeInHash(keyName, dictionaryLog);

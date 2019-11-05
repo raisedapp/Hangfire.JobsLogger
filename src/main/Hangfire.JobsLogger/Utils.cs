@@ -11,10 +11,10 @@ namespace Hangfire.JobsLogger
             return string.Format(Common.LoggerCounterStorageName, jobId);
         }
 
-        public static string GetKeyName(int page, string jobId) 
+        public static string GetKeyName(int seq, string jobId) 
         {
             return string
-                .Format(Common.LoggerKeyStorageName, Convert.ToString(page), jobId);
+                .Format(Common.LoggerKeyStorageName, seq.ToString("0000"), jobId);
         }
     }
 }
