@@ -19,15 +19,17 @@ namespace Hangfire.JobsLogger.Server
         public void OnPerforming(PerformingContext filterContext)
         {
             var loggerContext = new LoggerContext();
+            string item = Utils.GetLoggerContextName(filterContext.BackgroundJob.Id);
 
-            filterContext.Items[Common.LoggerContextName] = loggerContext;
+            filterContext.Items[item] = loggerContext;
 
-            LoggerContext.FromPerformContext(filterContext, _options);
+            loggerContext.FromPerformContext(filterContext, _options);
         }
 
         public void OnPerformed(PerformedContext filterContext)
         {
-            filterContext.Items.Remove(Common.LoggerContextName);
+            string item = Utils.GetLoggerContextName(filterContext.BackgroundJob.Id);
+            filterContext.Items.Remove(item);
         }
     }
 }

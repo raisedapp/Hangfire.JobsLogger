@@ -6,6 +6,11 @@ namespace Hangfire.JobsLogger
 {
     internal static class Utils
     {
+        public static string GetLoggerContextName(string jobId)
+        {
+            return string.Format(Common.LoggerContextName, jobId);
+        }
+
         public static string GetCounterName(string jobId) 
         {
             return string.Format(Common.LoggerCounterStorageName, jobId);

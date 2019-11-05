@@ -50,13 +50,15 @@ namespace Hangfire.JobsLogger
         {
             try
             {
-                if (context.Items[Common.LoggerContextName] is LoggerContext loggerContext && 
+                var jobId = context.BackgroundJob.Id;
+                var item = Utils.GetLoggerContextName(jobId);
+
+                if (context.Items[item] is LoggerContext loggerContext && 
                     loggerContext.IsEnabled())
                 {
                     using (var connection = context.Storage.GetConnection()) 
                     {
                         var jobExpirationTimeout = context.Storage.JobExpirationTimeout;
-                        var jobId = context.BackgroundJob.Id;
 
                         loggerContext.SaveLogMessage(connection, jobId, jobExpirationTimeout, logLevel, logMessage);
                     }
@@ -66,29 +68,6 @@ namespace Hangfire.JobsLogger
             {
                 Debug.WriteLine($"Error Write Log. Exception Message = {ex.Message}, StackTrace = {ex.ToString()}");
             }
-        }
-
-        internal static IEnumerable<LogMessage> GetLogMessagesByJobId(this PerformContext context, string jobId)
-        {
-            var logMessages = new List<LogMessage>();
-
-            try
-            {
-                using (var connection = context.Storage.GetConnection())
-                {
-                    //var key = Utils.GetKeyName(string.Empty, jobId);
-                    //var dictionaryMessages = connection.GetAllEntriesFromHash(key);
-                    //var jsonArray = dictionaryMessages.FirstOrDefault().Value;
-                    //
-                    //logMessages.AddRange(JsonConvert.DeserializeObject<List<LogMessage>>(jsonArray));
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error Read Log Messages. Exception Message = {ex.Message}, StackTrace = {ex.ToString()}");
-            }
-
-            return logMessages;
         }
     }
 }

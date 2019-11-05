@@ -6,7 +6,7 @@ namespace Hangfire.JobsLogger
 {
     internal static class Common
     {
-        public static readonly string LoggerContextName = "LoggerContext";
+        public static readonly string LoggerContextName = "LoggerContext_JobId={0}";
 
         public static readonly string LoggerCounterStorageName = "Logger_Counter_JobId={0}";
 
