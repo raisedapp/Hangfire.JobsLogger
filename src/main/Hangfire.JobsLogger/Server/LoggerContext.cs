@@ -1,5 +1,4 @@
 ﻿using Hangfire.Common;
-using Hangfire.JobsLogger.Extensions;
 using Hangfire.JobsLogger.Model;
 using Hangfire.Server;
 using Hangfire.Storage;
