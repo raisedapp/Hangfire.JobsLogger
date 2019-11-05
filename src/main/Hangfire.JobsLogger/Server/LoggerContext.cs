@@ -18,6 +18,8 @@ namespace Hangfire.JobsLogger.Server
         private static PerformContext _context;
         private static JobsLoggerOptions _options;
 
+        private static readonly object _lockObj = new object();
+
         public static LoggerContext FromPerformContext(PerformContext context, 
             JobsLoggerOptions options)
         {
@@ -37,12 +39,33 @@ namespace Hangfire.JobsLogger.Server
             return _options.LogLevel != LogLevel.None;
         }
 
-        private int GetCounterValue(IStorageConnection connection, string jobId) 
+        private int GetCounterValue(IStorageConnection connection, string jobId, bool plus = false, TimeSpan? jobExpirationTimeout = null) 
         {
             string counterName = Utils.GetCounterName(jobId);
             var counterHash = connection.GetAllEntriesFromHash(counterName);
             int counterValue = counterHash != null && counterHash.Any() ?
                 int.Parse(counterHash.FirstOrDefault().Value) : 0;
+
+            if (plus) 
+            {
+                using (var writeTransaction = connection.CreateWriteTransaction())
+                {
+                    lock (_lockObj) 
+                    {
+                        var dictionaryLogCounter = new Dictionary<string, string>
+                        {
+                            [counterName] = Convert.ToString(++counterValue)
+                        };
+
+                        writeTransaction.SetRangeInHash(counterName, dictionaryLogCounter);
+
+                        if (writeTransaction is JobStorageTransaction jsTransaction)
+                            jsTransaction.ExpireHash(counterName, jobExpirationTimeout ?? TimeSpan.MinValue);
+
+                        writeTransaction.Commit();
+                    }
+                }
+            }
 
             return counterValue;
         }
@@ -60,9 +83,9 @@ namespace Hangfire.JobsLogger.Server
                 };
 
                 string counterName = Utils.GetCounterName(jobId);
-                int counterValue = GetCounterValue(connection, jobId);
+                int counterValue = GetCounterValue(connection, jobId, true, jobExpirationTimeout);
 
-                var keyName = Utils.GetKeyName(++counterValue, jobId);
+                var keyName = Utils.GetKeyName(counterValue, jobId);
                 var logSerialization = SerializationHelper.Serialize(logMessageModel);
 
                 var dictionaryLog = new Dictionary<string, string>
@@ -70,18 +93,11 @@ namespace Hangfire.JobsLogger.Server
                     [keyName] = logSerialization
                 };
 
-                var dictionaryLogCounter = new Dictionary<string, string>
-                {
-                    [counterName] = Convert.ToString(counterValue)
-                };
-
                 writeTransaction.SetRangeInHash(keyName, dictionaryLog);
-                writeTransaction.SetRangeInHash(counterName, dictionaryLogCounter);
 
                 if (writeTransaction is JobStorageTransaction jsTransaction)
                 {
                     jsTransaction.ExpireHash(keyName, jobExpirationTimeout);
-                    jsTransaction.ExpireHash(counterName, jobExpirationTimeout);
                 }
 
                 writeTransaction.Commit();
