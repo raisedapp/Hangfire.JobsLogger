@@ -111,10 +111,10 @@ namespace Hangfire.JobsLogger.Server
 
             try
             {
-                int fromValue = GetCounterValue(connection, jobId);
-                int toValue = count > fromValue ? count : fromValue;
+                int counterValue = GetCounterValue(connection, jobId);
+                int toValue = count > counterValue ? counterValue : count;
 
-                foreach (int i in Enumerable.Range(fromValue, toValue)) 
+                foreach (int i in Enumerable.Range(from, toValue)) 
                 {
                     var logMessageHash = connection.GetAllEntriesFromHash(Util.GetKeyName(i, jobId));
 
