@@ -16,7 +16,7 @@
     <Description>A Hangfire extension to store a log during job execution</Description>
     <Copyright>Copyright © 2019</Copyright>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageTags>Hangfire Logging RecurringJob</PackageTags>
+    <PackageTags>Hangfire Hangfire-Extension Logging RecurringJob</PackageTags>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE</DefineConstants>
