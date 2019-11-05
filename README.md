@@ -3,7 +3,7 @@
 ## Build Status
 `Platform` | `Master` | `Develop`
 --- | --- | ---
-**Windows** | [![Build Status](https://ci.appveyor.com/api/projects/status/254pepk2j7s823f7/branch/master?svg=true)](https://ci.appveyor.com/project/felixclase/hangfire-jobslogger/) | [![Build Status](https://ci.appveyor.com/api/projects/status/254pepk2j7s823f7/branch/develop?svg=true)](https://ci.appveyor.com/project/felixclase/hangfire-jobslogger/)
+**Windows** | [![Build Status](https://circleci.com/gh/raisedapp/Hangfire.JobsLogger/tree/master.svg?style=svg)](https://circleci.com/gh/raisedapp/Hangfire.JobsLogger/tree/master) | [![Build Status](https://circleci.com/gh/raisedapp/Hangfire.JobsLogger/tree/develop.svg?style=svg)](https://circleci.com/gh/raisedapp/Hangfire.JobsLogger/tree/develop)
 **Linux / Mac OS** | [![Build Status](https://travis-ci.org/raisedapp/Hangfire.JobsLogger.svg?branch=master)](https://travis-ci.org/raisedapp/Hangfire.JobsLogger/) | [![Build Status](https://travis-ci.org/raisedapp/Hangfire.JobsLogger.svg?branch=develop)](https://travis-ci.org/raisedapp/Hangfire.JobsLogger/)
 
 ## Overview
@@ -18,6 +18,15 @@ A Hangfire extension to store a log during job execution
 ## Credits
  * Brayan Mota
  * Lucas Ferreras
+ 
+## Thanks
+
+This project would not have been possible, without the collaboration of the following projects:
+
+ * [Hangfire.Console](https://github.com/pieceofsummer/Hangfire.Console)
+ * [Hangfire.Hearbeat](https://github.com/ahydrax/Hangfire.Heartbeat)
+ * [Hangfire.RecurringJobAdmin](https://github.com/bamotav/Hangfire.RecurringJobAdmin)
+ * [Hangfire.LiteDb](https://github.com/codeyu/Hangfire.LiteDB)
  
 ## Donation
 If this project help you reduce time to develop, you can give me a cup of coffee :) 

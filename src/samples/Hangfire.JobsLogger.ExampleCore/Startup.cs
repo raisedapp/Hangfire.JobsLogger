@@ -22,8 +22,6 @@ namespace Hangfire.JobsLogger.ExampleCore
                 .UseJobsLogger()
                 .UseConsole()
                 .UseLiteDbStorage());
-
-            services.AddHangfireServer();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,8 +43,6 @@ namespace Hangfire.JobsLogger.ExampleCore
             var taskExample = new TaskExample();
 
             RecurringJob.AddOrUpdate(() => taskExample.TaskMethod(null), Cron.Minutely);
-
-            //RecurringJob.AddOrUpdate(() => System.Console.WriteLine(""), Cron.Minutely);
         }
     }
 }

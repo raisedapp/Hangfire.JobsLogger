@@ -1,50 +1,46 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
     <TargetFrameworks>netstandard2.0;net47</TargetFrameworks>
+  </PropertyGroup>  
+  <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.0.2</Version>
+    <Version>0.0.3</Version>
     <Authors>RaisedApp</Authors>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/raisedapp/Hangfire.JobsLogger</PackageProjectUrl>
     <RepositoryUrl>https://github.com/raisedapp/Hangfire.JobsLogger</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Description>A Hangfire extension to store a log during job execution</Description>
-    <Copyright>Copyright ©  2019</Copyright>
+    <Copyright>Copyright © 2019</Copyright>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
-
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
   </ItemGroup>
-
   <ItemGroup Condition=" '$(TargetFramework)' == 'net47' ">
   </ItemGroup>
-
   <ItemGroup>
     <None Remove="Dashboard\Pages\Html\Logger.html" />
   </ItemGroup>
-
   <ItemGroup>
-    <None Include="..\..\LICENSE">
+    <None Include="..\..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="HangFire.Core" Version="1.7.6" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" />
-    <PackageReference Include="RazorGenerator.Mvc" Version="2.4.9" Condition="'$(TargetFramework)' == 'net47'"/> 
+    <PackageReference Include="RazorGenerator.Mvc" Version="2.4.9" Condition="'$(TargetFramework)' == 'net47'" /> 
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="Dashboard\Pages\Content\" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Update="Dashboard\Pages\Html\Logging.generated.cs">
       <DesignTime>True</DesignTime>
@@ -52,7 +48,6 @@
       <DependentUpon>Logging.cshtml</DependentUpon>
     </Compile>
   </ItemGroup>
-
   <ItemGroup>
     <None Update="Dashboard\Pages\Html\Logging.cshtml">
       <Generator>RazorGenerator</Generator>

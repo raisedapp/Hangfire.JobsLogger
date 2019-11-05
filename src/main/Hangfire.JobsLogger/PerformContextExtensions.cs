@@ -57,56 +57,11 @@ namespace Hangfire.JobsLogger
                     if (context.Items[Common.LoggerContextName] is LoggerContext loggerContext && 
                         loggerContext.IsEnabled())
                     {
-                        using (var connection = context.Storage.GetConnection())
-                        using (var writeTransaction = connection.CreateWriteTransaction())
-                        {
-                            var jobId = context.BackgroundJob.Id;
+                        var connection = context.Storage.GetConnection();
+                        var jobExpirationTimeout = context.Storage.JobExpirationTimeout;
+                        var jobId = context.BackgroundJob.Id;
 
-                            var logMessageModel = new LogMessage
-                            {
-                                JobId = jobId,
-                                LogLevel = logLevel,
-                                DateCreation = DateTime.UtcNow,
-                                Message = logMessage
-                            };
-
-                            var logData = new List<LogMessage>
-                            {
-                                logMessageModel
-                            };
-
-                            var key = Utils.GetKeyName(jobId);
-                            var oldValues = connection.GetAllEntriesFromHash(key);
-                            var logSerialization = SerializationHelper.Serialize(logData);
-
-                            string value = string.Empty;
-
-                            if (oldValues != null && oldValues.Any())
-                            {
-                                var logArray = JArray.Parse(oldValues.FirstOrDefault().Value);
-                                logArray.Add(JObject.Parse(SerializationHelper.Serialize(logMessageModel)));
-
-                                value = logArray.ToString(Newtonsoft.Json.Formatting.None);
-                            }
-                            else
-                            {
-                                value = logSerialization;
-                            }
-
-                            var dictionary = new Dictionary<string, string>
-                            {
-                                [key] = value
-                            };
-
-                            writeTransaction.SetRangeInHash(key, dictionary);
-
-                            if (writeTransaction is JobStorageTransaction jsTransaction)
-                            {
-                                jsTransaction.ExpireHash(key, context.Storage.JobExpirationTimeout);
-                            }
-
-                            writeTransaction.Commit();
-                        }
+                        loggerContext.SaveLogMessage(connection, jobId, jobExpirationTimeout, logLevel, logMessage);
                     }
                 }
             }
@@ -124,16 +79,15 @@ namespace Hangfire.JobsLogger
             {
                 using (var connection = context.Storage.GetConnection())
                 {
-                    var key = Utils.GetKeyName(jobId);
-                    var dictionaryMessages = connection.GetAllEntriesFromHash(key);
-                    var jsonArray = dictionaryMessages.FirstOrDefault().Value;
-
-                    logMessages.AddRange(JsonConvert.DeserializeObject<List<LogMessage>>(jsonArray));
+                    //var key = Utils.GetKeyName(string.Empty, jobId);
+                    //var dictionaryMessages = connection.GetAllEntriesFromHash(key);
+                    //var jsonArray = dictionaryMessages.FirstOrDefault().Value;
+                    //
+                    //logMessages.AddRange(JsonConvert.DeserializeObject<List<LogMessage>>(jsonArray));
                 }
             }
             catch (Exception ex)
             {
-
                 Debug.WriteLine($"Error Read Log Messages. Exception Message = {ex.Message}, StackTrace = {ex.ToString()}");
             }
 

@@ -37,6 +37,5 @@ namespace Hangfire.JobsLogger.Dashboard.Pages
         {
             WriteLiteral("\r\n");
         }
-
     }
 }
