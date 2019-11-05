@@ -12,8 +12,8 @@ matrix:
       mono: none
 script:
   - ulimit -n 2048    
-  - dotnet restore "src\main" 
-  - dotnet build "src\main" -f netstandard2.0
-  - dotnet restore "src\test"
-  - dotnet build "src\test" -c Release
-  - dotnet test "src\test\Hangfire.JobsLogger.Test.csproj" --configuration Release --no-build
+  - dotnet restore "src\main\Hangfire.JobsLogger" 
+  - dotnet build "src\main\Hangfire.JobsLogger" -f netstandard2.0
+  - dotnet restore "src\test\Hangfire.JobsLogger.Test"
+  - dotnet build "src\test\Hangfire.JobsLogger.Test" -c Release
+  - dotnet test "src\test\Hangfire.JobsLogger.Test\Hangfire.JobsLogger.Test.csproj" --configuration Release --no-build

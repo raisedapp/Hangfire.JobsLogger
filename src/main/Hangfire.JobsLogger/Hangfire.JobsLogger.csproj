@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\..\LICENSE">
+    <None Include="..\..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
@@ -38,7 +38,7 @@
   <ItemGroup>
     <PackageReference Include="HangFire.Core" Version="1.7.6" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.0.0" />
-    <PackageReference Include="RazorGenerator.Mvc" Version="2.4.9" Condition="'$(TargetFramework)' == 'net47'"/> 
+    <PackageReference Include="RazorGenerator.Mvc" Version="2.4.9" Condition="'$(TargetFramework)' == 'net47'" /> 
   </ItemGroup>
 
   <ItemGroup>

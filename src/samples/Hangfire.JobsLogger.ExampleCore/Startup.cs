@@ -45,8 +45,6 @@ namespace Hangfire.JobsLogger.ExampleCore
             var taskExample = new TaskExample();
 
             RecurringJob.AddOrUpdate(() => taskExample.TaskMethod(null), Cron.Minutely);
-
-            //RecurringJob.AddOrUpdate(() => System.Console.WriteLine(""), Cron.Minutely);
         }
     }
 }

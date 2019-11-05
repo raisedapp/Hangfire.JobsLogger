@@ -129,10 +129,6 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\main\Hangfire.JobsLogger.csproj">
-      <Project>{7a934ab8-8f4d-40a4-bd3f-98e9914ecac6}</Project>
-      <Name>Hangfire.JobsLogger</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Hangfire.JobsLogger.ExampleShared\Hangfire.JobsLogger.ExampleShared.csproj">
       <Project>{282e15fe-a782-4a5c-ae78-5d7d7bc5d0a8}</Project>
       <Name>Hangfire.JobsLogger.ExampleShared</Name>

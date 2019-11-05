@@ -12,10 +12,10 @@ jobs:
       - checkout
       - run:
           name: "Restore Packages"
-          command: dotnet.exe restore "src\main"
+          command: dotnet.exe restore "src\main\Hangfire.JobsLogger"
       - run:
           name: "Build App"
-          command: dotnet.exe build "src\main" -f netstandard2.0
+          command: dotnet.exe build "src\main\Hangfire.JobsLogger" -f netstandard2.0
       - run:
           name: "Run unit testing"
-          command: dotnet.exe test "src\test\Hangfire.JobsLogger.Test.csproj" --configuration Release --no-build
+          command: dotnet.exe test "src\test\Hangfire.JobsLogger.Test\Hangfire.JobsLogger.Test.csproj" --configuration Release --no-build

@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\main\Hangfire.JobsLogger.csproj" />
     <ProjectReference Include="..\Hangfire.JobsLogger.ExampleShared\Hangfire.JobsLogger.ExampleShared.csproj" />
   </ItemGroup>
 
