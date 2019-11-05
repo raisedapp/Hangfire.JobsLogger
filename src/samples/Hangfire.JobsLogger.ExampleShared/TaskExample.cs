@@ -1,6 +1,6 @@
 ﻿using Hangfire.Server;
 using System;
-using static System.Linq.Enumerable;
+using System.Linq;
 using Hangfire.Console;
 
 namespace Hangfire.JobsLogger.ExampleShared
@@ -9,7 +9,7 @@ namespace Hangfire.JobsLogger.ExampleShared
     {
         public void TaskMethod(PerformContext context)
         {
-            foreach (var i in Range(1, 10)) 
+            foreach (int i in Enumerable.Range(1, 10)) 
             {
                 context.LogTrace($"{i} - Trace Message.. {DateTime.UtcNow.Ticks}");
                 context.LogDebug($"{i} - Debug Message.. {DateTime.UtcNow.Ticks}");

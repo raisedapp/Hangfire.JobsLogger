@@ -32,6 +32,21 @@ namespace Hangfire.JobsLogger.Server
             return _options;
         }
 
+        public bool IsEnabled()
+        {
+            return _options.LogLevel != LogLevel.None;
+        }
+
+        private int GetCounterValue(IStorageConnection connection, string jobId) 
+        {
+            string counterName = Utils.GetCounterName(jobId);
+            var counterHash = connection.GetAllEntriesFromHash(counterName);
+            int counterValue = counterHash != null && counterHash.Any() ?
+                int.Parse(counterHash.FirstOrDefault().Value) : 0;
+
+            return counterValue;
+        }
+
         public void SaveLogMessage(IStorageConnection connection, string jobId, TimeSpan jobExpirationTimeout, LogLevel logLevel, string logMessage) 
         {
             using (var writeTransaction = connection.CreateWriteTransaction())
@@ -45,9 +60,7 @@ namespace Hangfire.JobsLogger.Server
                 };
 
                 string counterName = Utils.GetCounterName(jobId);
-                var counterOldValue = connection.GetAllEntriesFromHash(counterName);
-                int counterValue = counterOldValue != null && counterOldValue.Any() ? 
-                    int.Parse(counterOldValue.FirstOrDefault().Value) : 0;
+                int counterValue = GetCounterValue(connection, jobId);
 
                 var keyName = Utils.GetKeyName(++counterValue, jobId);
                 var logSerialization = SerializationHelper.Serialize(logMessageModel);
@@ -75,9 +88,33 @@ namespace Hangfire.JobsLogger.Server
             }
         }
 
-        public bool IsEnabled()
+        public IEnumerable<LogMessage> GetLogMessagesByJobId(IStorageConnection connection, string jobId, int from = 1, int count = int.MaxValue)
         {
-            return _options.LogLevel != LogLevel.None;
+            var logMessages = new List<LogMessage>();
+
+            try
+            {
+                int fromValue = GetCounterValue(connection, jobId);
+                int toValue = count > fromValue ? count : fromValue;
+
+                foreach (int i in Enumerable.Range(fromValue, toValue)) 
+                {
+                    var logMessageHash = connection.GetAllEntriesFromHash(Utils.GetKeyName(i, jobId));
+
+                    if (logMessageHash != null && logMessageHash.Any())
+                    {
+                        var logMessage = SerializationHelper
+                            .Deserialize<LogMessage>(logMessageHash.FirstOrDefault().Value);
+                        logMessages.Add(logMessage);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error Read Log Messages. Exception Message = {ex.Message}, StackTrace = {ex.ToString()}");
+            }
+
+            return logMessages;
         }
     }
 }

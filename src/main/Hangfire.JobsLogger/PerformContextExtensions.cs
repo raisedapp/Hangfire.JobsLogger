@@ -16,8 +16,6 @@ namespace Hangfire.JobsLogger
 {
     public static class PerformContextExtensions
     {
-        private static readonly object _lock = new object();
-
         public static void LogTrace(this PerformContext context, string logMessage)
         {
             Log(context, LogLevel.Trace, logMessage);
