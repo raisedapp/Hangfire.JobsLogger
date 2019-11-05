@@ -1,5 +1,4 @@
-﻿using Hangfire.Console;
-using Hangfire.JobsLogger.ExampleShared;
+﻿using Hangfire.JobsLogger.ExampleShared;
 using Hangfire.LiteDB;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,8 +19,7 @@ namespace Hangfire.JobsLogger.ExampleCore
                 .UseSimpleAssemblyNameTypeSerializer()
                 .UseRecommendedSerializerSettings()
                 .UseJobsLogger()
-                .UseConsole()
-                .UseLiteDbStorage());
+                .UseLiteDbStorage(TaskExample.ConnectiongStringLiteDb));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,15 +31,9 @@ namespace Hangfire.JobsLogger.ExampleCore
             }
 
             app.UseHangfireServer();
-            app.UseHangfireDashboard();
-
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
+            app.UseHangfireDashboard("");
 
             var taskExample = new TaskExample();
-
             RecurringJob.AddOrUpdate(() => taskExample.TaskMethod(null), Cron.Minutely);
         }
     }

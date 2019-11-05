@@ -1,12 +1,13 @@
 ﻿using Hangfire.Server;
 using System;
 using System.Linq;
-using Hangfire.Console;
 
 namespace Hangfire.JobsLogger.ExampleShared
 {
     public class TaskExample
     {
+        public static readonly string ConnectiongStringLiteDb = @"Filename=Hangfire.db;Mode=Exclusive";
+
         public void TaskMethod(PerformContext context)
         {
             foreach (int i in Enumerable.Range(1, 10)) 
