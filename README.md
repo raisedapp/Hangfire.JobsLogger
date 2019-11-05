@@ -27,6 +27,7 @@ This project would not have been possible, without the collaboration of the foll
  * [Hangfire.Hearbeat](https://github.com/ahydrax/Hangfire.Heartbeat)
  * [Hangfire.RecurringJobAdmin](https://github.com/bamotav/Hangfire.RecurringJobAdmin)
  * [Hangfire.LiteDb](https://github.com/codeyu/Hangfire.LiteDB)
+ * [Hangfire.Tags](https://github.com/face-it/Hangfire.Tags)
  
 ## Donation
 If this project help you reduce time to develop, you can give me a cup of coffee :) 
