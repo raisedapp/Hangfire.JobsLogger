@@ -16,7 +16,7 @@ namespace Hangfire.JobsLogger.Dashboard.Pages
 
         static LoggerPage()
         {
-            PageHtml = Utility.ReadStringResource("Hangfire.JobsLogger.Dashboard.Page.Html.Logger.html");
+            PageHtml = Util.ReadStringResource("Hangfire.JobsLogger.Dashboard.Page.Html.Logger.html");
         }
 
         public override void Execute()

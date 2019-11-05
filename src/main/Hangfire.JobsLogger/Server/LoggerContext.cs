@@ -1,4 +1,5 @@
 ﻿using Hangfire.Common;
+using Hangfire.JobsLogger.Helper;
 using Hangfire.JobsLogger.Model;
 using Hangfire.Server;
 using Hangfire.Storage;
@@ -26,7 +27,7 @@ namespace Hangfire.JobsLogger.Server
             _context = context;
             _options = options;
 
-            return _context?.Items[Utils.GetLoggerContextName(context.BackgroundJob.Id)] as LoggerContext ?? null;
+            return _context?.Items[Util.GetLoggerContextName(context.BackgroundJob.Id)] as LoggerContext ?? null;
         }
 
         public JobsLoggerOptions GetOptions() 
@@ -41,7 +42,7 @@ namespace Hangfire.JobsLogger.Server
 
         private int GetCounterValue(IStorageConnection connection, string jobId, bool plus = false, TimeSpan? jobExpirationTimeout = null) 
         {
-            string counterName = Utils.GetCounterName(jobId);
+            string counterName = Util.GetCounterName(jobId);
             var counterHash = connection.GetAllEntriesFromHash(counterName);
             int counterValue = counterHash != null && counterHash.Any() ?
                 int.Parse(counterHash.FirstOrDefault().Value) : 0;
@@ -82,10 +83,10 @@ namespace Hangfire.JobsLogger.Server
                     Message = logMessage
                 };
 
-                string counterName = Utils.GetCounterName(jobId);
+                string counterName = Util.GetCounterName(jobId);
                 int counterValue = GetCounterValue(connection, jobId, true, jobExpirationTimeout);
 
-                var keyName = Utils.GetKeyName(counterValue, jobId);
+                var keyName = Util.GetKeyName(counterValue, jobId);
                 var logSerialization = SerializationHelper.Serialize(logMessageModel);
 
                 var dictionaryLog = new Dictionary<string, string>
@@ -115,7 +116,7 @@ namespace Hangfire.JobsLogger.Server
 
                 foreach (int i in Enumerable.Range(fromValue, toValue)) 
                 {
-                    var logMessageHash = connection.GetAllEntriesFromHash(Utils.GetKeyName(i, jobId));
+                    var logMessageHash = connection.GetAllEntriesFromHash(Util.GetKeyName(i, jobId));
 
                     if (logMessageHash != null && logMessageHash.Any())
                     {
