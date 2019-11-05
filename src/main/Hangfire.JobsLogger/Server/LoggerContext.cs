@@ -105,7 +105,7 @@ namespace Hangfire.JobsLogger.Server
             }
         }
 
-        public IEnumerable<LogMessage> GetLogMessagesByJobId(IStorageConnection connection, string jobId, int from = 1, int count = int.MaxValue)
+        public IEnumerable<LogMessage> GetLogMessagesByJobId(IStorageConnection connection, string jobId, int from = 1, int count = 10)
         {
             var logMessages = new List<LogMessage>();
 
