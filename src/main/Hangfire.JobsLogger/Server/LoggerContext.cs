@@ -40,7 +40,7 @@ namespace Hangfire.JobsLogger.Server
             return _options.LogLevel != LogLevel.None;
         }
 
-        private int GetCounterValue(IStorageConnection connection, string jobId, bool plus = false, TimeSpan? jobExpirationTimeout = null) 
+        public int GetCounterValue(IStorageConnection connection, string jobId, bool plus = false, TimeSpan? jobExpirationTimeout = null) 
         {
             string counterName = Util.GetCounterName(jobId);
             var counterHash = connection.GetAllEntriesFromHash(counterName);

@@ -5,13 +5,20 @@
 @using Hangfire.Dashboard
 @using Hangfire.Dashboard.Pages
 @using Hangfire.Dashboard.Resources
+@using Hangfire.JobsLogger.Server
 @inherits RazorPage
 @{
-    Layout = new LayoutPage("Logging");
+    Layout = new LayoutPage("Logs");
 
+    var loggerContext = new LoggerContext();
     int.TryParse(Query("from"), out var from);
     int.TryParse(Query("count"), out var perPage);
+    string jobId = Query("jobId");
 
+    var totalLogs = loggerContext.GetCounterValue(Storage.GetConnection(), jobId);
+    var jobLogs = loggerContext.GetLogMessagesByJobId(Storage.GetConnection(), jobId, from, perPage);
+
+    var pager = new Pager(from, perPage, totalLogs);
 }
 
 <div class="row">
@@ -19,9 +26,40 @@
         @Html.JobsSidebar()
     </div>
     <div class="col-md-9">
-        <h1 class="page-header">Logs 0</h1>
-        <div class="tags">
-            There are no Logs found yet.sdasdasda
-        </div>
+        <h1 class="page-header">Logs</h1>
+        @{
+            if (!jobLogs.Any())
+            {
+                <div class="tags">
+                    There are no tags found yet.
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    @Html.PerPageSelector(pager)
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="min-width">Log Level</th>
+                                <th>Message</th>
+                                <th class="min-width align-right">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var log in jobLogs)
+                            {
+                            <tr class="js-jobs-list-row">
+                                <td class="min-width">@log.LogLevel</td>
+                                <td>@log.Message</td>
+                                <td class="min-width align-right">@Html.RelativeTime(@log.DateCreation)</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                    @Html.Paginator(pager)
+                </div>
+            }
+        }
     </div>
 </div>
