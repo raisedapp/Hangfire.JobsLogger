@@ -50,6 +50,12 @@ namespace Hangfire.JobsLogger.Dashboard.Pages.Html
     #line default
     #line hidden
     
+    #line 8 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+    using Hangfire.JobsLogger.Server;
+    
+    #line default
+    #line hidden
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("RazorGenerator", "2.0.0.0")]
     internal partial class Logging : RazorPage
     {
@@ -69,32 +75,157 @@ WriteLiteral("\r\n");
 
 
 
-            
-            #line 9 "..\..\Dashboard\Pages\Html\Logging.cshtml"
-  
-    Layout = new LayoutPage("Logging");
 
+            
+            #line 10 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+  
+    Layout = new LayoutPage("Logs");
+
+    var loggerContext = new LoggerContext();
     int.TryParse(Query("from"), out var from);
     int.TryParse(Query("count"), out var perPage);
+    string jobId = Query("jobId");
 
+    var totalLogs = loggerContext.GetCounterValue(Storage.GetConnection(), jobId);
+    var jobLogs = loggerContext.GetLogMessagesByJobId(Storage.GetConnection(), jobId, from, perPage);
+
+    var pager = new Pager(from, perPage, totalLogs);
 
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n\r\n<div class=\"row\">\r\n    <div class=\"col-md-3\">\r\n        ");
+WriteLiteral("\r\n<div class=\"row\">\r\n    <div class=\"col-md-3\">\r\n        ");
 
 
             
-            #line 20 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+            #line 26 "..\..\Dashboard\Pages\Html\Logging.cshtml"
    Write(Html.JobsSidebar());
 
             
             #line default
             #line hidden
-WriteLiteral("\r\n    </div>\r\n    <div class=\"col-md-9\">\r\n        <h1 class=\"page-header\">Logs 0<" +
-"/h1>\r\n        <div class=\"tags\">\r\n            There are no Logs found yet.\r\n    " +
-"    </div>\r\n    </div>\r\n</div>");
+WriteLiteral("\r\n    </div>\r\n    <div class=\"col-md-9\">\r\n        <h1 class=\"page-header\">Logs</h" +
+"1>\r\n");
+
+
+            
+            #line 30 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+          
+            if (!jobLogs.Any())
+            {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                <div class=\"tags\">\r\n                    There are no tags found y" +
+"et.\r\n                </div>\r\n");
+
+
+            
+            #line 36 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+            }
+            else
+            {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                <div class=\"table-responsive\">\r\n                    ");
+
+
+            
+            #line 40 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+               Write(Html.PerPageSelector(pager));
+
+            
+            #line default
+            #line hidden
+WriteLiteral(@"
+                    <table class=""table"">
+                        <thead>
+                            <tr>
+                                <th class=""min-width"">Log Level</th>
+                                <th>Message</th>
+                                <th class=""min-width align-right"">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+");
+
+
+            
+            #line 50 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+                             foreach (var log in jobLogs)
+                            {
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                            <tr class=\"js-jobs-list-row\">\r\n                      " +
+"          <td class=\"min-width\">");
+
+
+            
+            #line 53 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+                                                 Write(log.LogLevel);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</td>\r\n                                <td>");
+
+
+            
+            #line 54 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+                               Write(log.Message);
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</td>\r\n                                <td class=\"min-width align-right\">");
+
+
+            
+            #line 55 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+                                                             Write(Html.RelativeTime(@log.DateCreation));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("</td>\r\n                            </tr>\r\n");
+
+
+            
+            #line 57 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+                            }
+
+            
+            #line default
+            #line hidden
+WriteLiteral("                        </tbody>\r\n                    </table>\r\n                 " +
+"   ");
+
+
+            
+            #line 60 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+               Write(Html.Paginator(pager));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\r\n                </div>\r\n");
+
+
+            
+            #line 62 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+            }
+        
+
+            
+            #line default
+            #line hidden
+WriteLiteral("    </div>\r\n</div>");
 
 
         }

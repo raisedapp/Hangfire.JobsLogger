@@ -1,4 +1,5 @@
 ﻿using Hangfire.Common;
+using Hangfire.JobsLogger.Helper;
 using Hangfire.JobsLogger.Model;
 using Hangfire.Server;
 using Hangfire.Storage;
@@ -15,21 +16,59 @@ namespace Hangfire.JobsLogger.Server
 {
     internal class LoggerContext
     {
-        private static PerformContext _context;
-        private static JobsLoggerOptions _options;
+        private PerformContext _context;
+        private JobsLoggerOptions _options;
 
-        public static LoggerContext FromPerformContext(PerformContext context, 
+        private readonly object _lockObj = new object();
+
+        public LoggerContext FromPerformContext(PerformContext context, 
             JobsLoggerOptions options)
         {
             _context = context;
             _options = options;
 
-            return _context?.Items[Common.LoggerContextName] as LoggerContext ?? null;
+            return _context?.Items[Util.GetLoggerContextName(context.BackgroundJob.Id)] as LoggerContext ?? null;
         }
 
         public JobsLoggerOptions GetOptions() 
         {
             return _options;
+        }
+
+        public bool IsEnabled()
+        {
+            return _options.LogLevel != LogLevel.None;
+        }
+
+        public int GetCounterValue(IStorageConnection connection, string jobId, bool plus = false, TimeSpan? jobExpirationTimeout = null) 
+        {
+            string counterName = Util.GetCounterName(jobId);
+            var counterHash = connection.GetAllEntriesFromHash(counterName);
+            int counterValue = counterHash != null && counterHash.Any() ?
+                int.Parse(counterHash.FirstOrDefault().Value) : 0;
+
+            if (plus) 
+            {
+                using (var writeTransaction = connection.CreateWriteTransaction())
+                {
+                    lock (_lockObj) 
+                    {
+                        var dictionaryLogCounter = new Dictionary<string, string>
+                        {
+                            [counterName] = Convert.ToString(++counterValue)
+                        };
+
+                        writeTransaction.SetRangeInHash(counterName, dictionaryLogCounter);
+
+                        if (writeTransaction is JobStorageTransaction jsTransaction)
+                            jsTransaction.ExpireHash(counterName, jobExpirationTimeout ?? TimeSpan.MinValue);
+
+                        writeTransaction.Commit();
+                    }
+                }
+            }
+
+            return counterValue;
         }
 
         public void SaveLogMessage(IStorageConnection connection, string jobId, TimeSpan jobExpirationTimeout, LogLevel logLevel, string logMessage) 
@@ -44,61 +83,55 @@ namespace Hangfire.JobsLogger.Server
                     Message = logMessage
                 };
 
-                var logData = new List<LogMessage>
-                {
-                    logMessageModel
-                };
+                string counterName = Util.GetCounterName(jobId);
+                int counterValue = GetCounterValue(connection, jobId, true, jobExpirationTimeout);
 
-                string counterName = Utils.GetCounterName(jobId);
-                var counterOldValue = connection.GetAllEntriesFromHash(counterName);
-                int counterValue = counterOldValue != null && counterOldValue.Any() ? int.Parse(counterOldValue.FirstOrDefault().Value) : 0;
-
-                int currentPage = counterValue;//TODO
-
-                var keyName = Utils.GetKeyName(currentPage, jobId);
-                var oldValues = connection.GetAllEntriesFromHash(keyName);
-                var logSerialization = SerializationHelper.Serialize(logData);
-
-                string value = string.Empty;
-
-                if (oldValues != null && oldValues.Any())
-                {
-                    var logArray = JArray.Parse(oldValues.FirstOrDefault().Value);
-                    logArray.Add(JObject.Parse(SerializationHelper.Serialize(logMessageModel)));
-
-                    value = logArray.ToString(Formatting.None);
-                }
-                else
-                {
-                    value = logSerialization;
-                }
+                var keyName = Util.GetKeyName(counterValue, jobId);
+                var logSerialization = SerializationHelper.Serialize(logMessageModel);
 
                 var dictionaryLog = new Dictionary<string, string>
                 {
-                    [keyName] = value
-                };
-
-                var dictionaryLogCounter = new Dictionary<string, string>
-                {
-                    [counterName] = Convert.ToString(++counterValue)
+                    [keyName] = logSerialization
                 };
 
                 writeTransaction.SetRangeInHash(keyName, dictionaryLog);
-                writeTransaction.SetRangeInHash(counterName, dictionaryLogCounter);
 
                 if (writeTransaction is JobStorageTransaction jsTransaction)
                 {
                     jsTransaction.ExpireHash(keyName, jobExpirationTimeout);
-                    jsTransaction.ExpireHash(counterName, jobExpirationTimeout);
                 }
 
                 writeTransaction.Commit();
             }
         }
 
-        public bool IsEnabled()
+        public IEnumerable<LogMessage> GetLogMessagesByJobId(IStorageConnection connection, string jobId, int from = 1, int count = 10)
         {
-            return _options.LogLevel != LogLevel.None;
+            var logMessages = new List<LogMessage>();
+
+            try
+            {
+                int counterValue = GetCounterValue(connection, jobId);
+                int toValue = count > counterValue ? counterValue : count;
+
+                foreach (int i in Enumerable.Range(from, toValue)) 
+                {
+                    var logMessageHash = connection.GetAllEntriesFromHash(Util.GetKeyName(i, jobId));
+
+                    if (logMessageHash != null && logMessageHash.Any())
+                    {
+                        var logMessage = SerializationHelper
+                            .Deserialize<LogMessage>(logMessageHash.FirstOrDefault().Value);
+                        logMessages.Add(logMessage);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error Read Log Messages. Exception Message = {ex.Message}, StackTrace = {ex.ToString()}");
+            }
+
+            return logMessages;
         }
     }
 }

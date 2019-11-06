@@ -4,6 +4,7 @@ using Hangfire.JobsLogger;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Hangfire.JobsLogger.Helper;
 
 namespace Hangfire.JobsLogger.Server
 {
@@ -19,15 +20,17 @@ namespace Hangfire.JobsLogger.Server
         public void OnPerforming(PerformingContext filterContext)
         {
             var loggerContext = new LoggerContext();
+            string item = Util.GetLoggerContextName(filterContext.BackgroundJob.Id);
 
-            filterContext.Items[Common.LoggerContextName] = loggerContext;
+            filterContext.Items[item] = loggerContext;
 
-            LoggerContext.FromPerformContext(filterContext, _options);
+            loggerContext.FromPerformContext(filterContext, _options);
         }
 
         public void OnPerformed(PerformedContext filterContext)
         {
-            filterContext.Items.Remove(Common.LoggerContextName);
+            string item = Util.GetLoggerContextName(filterContext.BackgroundJob.Id);
+            filterContext.Items.Remove(item);
         }
     }
 }

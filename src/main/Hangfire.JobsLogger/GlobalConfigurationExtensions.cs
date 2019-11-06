@@ -23,17 +23,7 @@ namespace Hangfire.JobsLogger
             //TODO: Controllers - UI - Routing
             //JobHistoryRenderer.Register(ProcessingState.StateName, new ProcessingStateRenderer().Render);
 
-            DashboardRoutes.Routes.AddRazorPage("/jobs/Logging/search(/.+)?", x => new Dashboard.Pages.Html.Logging());
-
-            JobsSidebarMenu.Items.Add(page => new MenuItem("Logging", page.Url.To("/jobs/Logging/search"))
-            {
-                Active = page.RequestPath.StartsWith("/jobs/Logging/search"),
-                Metric = new DashboardMetric("Logging:count", razorPage =>
-                {
-                    //var tagStorage = new TagsStorage(razorPage.Storage);
-                    return new Metric(15);
-                })
-            });
+            DashboardRoutes.Routes.AddRazorPage("/jobs/logs", x => new Dashboard.Pages.Html.Logging());
 
             //The next line code is for testing :
             //JobHistoryRenderer.Register(SucceededState.StateName, new ProcessingStateRenderer().Render);
