@@ -108,7 +108,7 @@ WriteLiteral("\r\n");
     if (!int.TryParse(Query("from"), out int from) ||
         !int.TryParse(Query("count"), out int perPage))
     {
-        from = 1;
+        from = 0;
         perPage = 10;
     }
 
