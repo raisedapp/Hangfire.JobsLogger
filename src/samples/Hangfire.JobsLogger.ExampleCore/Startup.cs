@@ -31,7 +31,7 @@ namespace Hangfire.JobsLogger.ExampleCore
             }
 
             app.UseHangfireServer();
-            app.UseHangfireDashboard("");
+            app.UseHangfireDashboard(string.Empty);
 
             var taskExample = new TaskExample();
             RecurringJob.AddOrUpdate(() => taskExample.TaskMethod(null), Cron.Minutely);
