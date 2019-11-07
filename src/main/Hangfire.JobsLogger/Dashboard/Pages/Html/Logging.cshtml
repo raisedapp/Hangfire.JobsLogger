@@ -1,18 +1,26 @@
 ﻿@* Generator: Template TypeVisibility: Internal GeneratePrettyNames: True *@
 @using System
 @using System.Linq
+@using System.IO
 @using System.Text.RegularExpressions
 @using Hangfire.Dashboard
 @using Hangfire.Dashboard.Pages
 @using Hangfire.Dashboard.Resources
 @using Hangfire.JobsLogger.Server
 @using Hangfire.JobsLogger.Helper
+@using Hangfire.JobsLogger.Dashboard.Pages
 @inherits RazorPage
 @{
     Layout = new LayoutPage("Logs");
-
     var loggerContext = new LoggerContext();
-    string jobId = Query("jobId");
+
+    string relativeUrl = RequestPath;
+    int index = relativeUrl.IndexOf("?");
+
+    if (index != -1)
+        relativeUrl = relativeUrl.Substring(0, index);
+
+    string jobId = Path.GetFileNameWithoutExtension(relativeUrl);
 
     if (!int.TryParse(Query("from"), out int from) ||
         !int.TryParse(Query("count"), out int perPage))
@@ -59,7 +67,7 @@
 
                                 <tr class="js-jobs-list-row">
                                     <td class="min-width">
-                                        <span class="badge" data-bind="style: { 'background-color': displayColor }" style="background-color: rgb(@logColor.R, @logColor.B, @logColor.G);">
+                                        <span class="badge" style="background-color: rgba(@logColor.R, @logColor.G, @logColor.B, @logColor.A);">
                                             <span class="text-center" style="text-decoration: none;">@log.LogLevel</span>
                                         </span>
                                     </td>

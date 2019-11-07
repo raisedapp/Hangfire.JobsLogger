@@ -34,11 +34,11 @@ namespace Hangfire.JobsLogger.Helper
             switch (logLevel)
             {
                 case LogLevel.Trace: color = JobsLoggerFilter.Options.LogTraceColor; break;
-                case LogLevel.Debug: color = JobsLoggerFilter.Options.LogDebugColor;  break;
-                case LogLevel.Information: color = JobsLoggerFilter.Options.LogInformationColor;  break;
-                case LogLevel.Warning: color = JobsLoggerFilter.Options.LogWarningColor;  break;
-                case LogLevel.Error: color = JobsLoggerFilter.Options.LogErrorColor;  break;
-                case LogLevel.Critical: color = JobsLoggerFilter.Options.LogCriticalColor;  break;
+                case LogLevel.Debug: color = JobsLoggerFilter.Options.LogDebugColor; break;
+                case LogLevel.Information: color = JobsLoggerFilter.Options.LogInformationColor; break;
+                case LogLevel.Warning: color = JobsLoggerFilter.Options.LogWarningColor; break;
+                case LogLevel.Error: color = JobsLoggerFilter.Options.LogErrorColor; break;
+                case LogLevel.Critical: color = JobsLoggerFilter.Options.LogCriticalColor; break;
             }
 
             return color;
