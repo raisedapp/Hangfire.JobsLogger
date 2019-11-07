@@ -1,5 +1,6 @@
 ﻿using Hangfire.Dashboard;
 using Hangfire.JobsLogger.Dashboard.Extensions;
+using Hangfire.JobsLogger.Helper;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,19 +14,16 @@ namespace Hangfire.JobsLogger.Dashboard
     {
         public NonEscapedString Render(HtmlHelper helper, IDictionary<string, string> stateData)
         {
-            var bld = new StringBuilder();
-
-            bld.Append("JEJEJEJEJEJE");
-
             var page = helper.GetPage();
-            if (page.RequestPath.StartsWith("/jobs/details"))
-            {
-                // Find the jobid
-                var jobId = page.RequestPath.Substring(" /jobs/details".Length);
+            var jobId = Util.GetFileNameFromURL(page.RequestPath);
 
-            }
+            var stateCard = new StringBuilder();
+            stateCard.AppendLine("<dl class=\"dl-horizontal\">");
+            stateCard.AppendLine($"<dt>Queue:</dt><dd>{helper.QueueLabel(stateData["Queue"])}</dd>");
+            stateCard.AppendLine($"<dt>Logs:</dt><dd><a class=\"text-uppercase\" href=\"../../jobs/logs/{jobId}\">View here</a></dd>");
+            stateCard.AppendLine("</dl>");
 
-            return new NonEscapedString(bld.ToString());
+            return new NonEscapedString(stateCard.ToString());
         }
     }
 }

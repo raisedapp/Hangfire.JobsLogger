@@ -14,13 +14,7 @@
     Layout = new LayoutPage("Logs");
     var loggerContext = new LoggerContext();
 
-    string relativeUrl = RequestPath;
-    int index = relativeUrl.IndexOf("?");
-
-    if (index != -1)
-        relativeUrl = relativeUrl.Substring(0, index);
-
-    string jobId = Path.GetFileNameWithoutExtension(relativeUrl);
+    string jobId = Util.GetFileNameFromURL(RequestPath);
 
     if (!int.TryParse(Query("from"), out int from) ||
         !int.TryParse(Query("count"), out int perPage))

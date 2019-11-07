@@ -27,6 +27,16 @@ namespace Hangfire.JobsLogger.Helper
                 .Format(Common.LoggerKeyStorageName, seq.ToString("0000"), jobId);
         }
 
+        public static string GetFileNameFromURL(string url) 
+        {
+            int index = url.IndexOf("?");
+
+            if (index != -1)
+                url = url.Substring(0, index);
+
+            return Path.GetFileNameWithoutExtension(url);
+        }
+
         public static Color GetColorByLogLevel(LogLevel logLevel) 
         {
             var color = Color.Transparent;
