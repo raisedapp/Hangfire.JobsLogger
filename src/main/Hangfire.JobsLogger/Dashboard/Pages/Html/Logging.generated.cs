@@ -113,7 +113,7 @@ WriteLiteral("\r\n");
     }
 
     var totalLogs = loggerContext.GetCounterValue(Storage.GetConnection(), jobId);
-    var jobLogs = loggerContext.GetLogMessagesByJobId(Storage.GetConnection(), jobId, from, perPage);
+    var jobLogs = loggerContext.GetLogMessagesByJobId(Storage.GetConnection(), jobId, ++from, perPage);
 
     var pager = new Pager(from, perPage, totalLogs);
 
