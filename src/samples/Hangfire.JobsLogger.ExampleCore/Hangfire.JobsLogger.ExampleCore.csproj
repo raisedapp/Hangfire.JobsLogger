@@ -12,9 +12,10 @@
 
   <ItemGroup>
     <PackageReference Include="Hangfire" Version="1.7.6" />
-    <PackageReference Include="Hangfire.LiteDB" Version="0.2.1" />
+    <PackageReference Include="LiteDB" Version="4.1.4" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.1" PrivateAssets="All" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +27,12 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Hangfire.LiteDB">
+      <HintPath>..\..\..\content\netstandard2.0\Hangfire.LiteDB.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -11,9 +11,14 @@
     Layout = new LayoutPage("Logs");
 
     var loggerContext = new LoggerContext();
-    int.TryParse(Query("from"), out var from);
-    int.TryParse(Query("count"), out var perPage);
     string jobId = Query("jobId");
+
+    if (!int.TryParse(Query("from"), out int from) ||
+        !int.TryParse(Query("count"), out int perPage))
+    {
+        from = 1;
+        perPage = 10;
+    }
 
     var totalLogs = loggerContext.GetCounterValue(Storage.GetConnection(), jobId);
     var jobLogs = loggerContext.GetLogMessagesByJobId(Storage.GetConnection(), jobId, from, perPage);
@@ -30,8 +35,8 @@
         @{
             if (!jobLogs.Any())
             {
-                <div class="tags">
-                    There are no tags found yet.
+                <div class="logs">
+                    There are no logs found yet.
                 </div>
             }
             else

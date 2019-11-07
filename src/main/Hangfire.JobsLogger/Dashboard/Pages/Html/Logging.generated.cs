@@ -82,9 +82,14 @@ WriteLiteral("\r\n");
     Layout = new LayoutPage("Logs");
 
     var loggerContext = new LoggerContext();
-    int.TryParse(Query("from"), out var from);
-    int.TryParse(Query("count"), out var perPage);
     string jobId = Query("jobId");
+
+    if (!int.TryParse(Query("from"), out int from) ||
+        !int.TryParse(Query("count"), out int perPage))
+    {
+        from = 1;
+        perPage = 10;
+    }
 
     var totalLogs = loggerContext.GetCounterValue(Storage.GetConnection(), jobId);
     var jobLogs = loggerContext.GetLogMessagesByJobId(Storage.GetConnection(), jobId, from, perPage);
@@ -99,7 +104,7 @@ WriteLiteral("\r\n<div class=\"row\">\r\n    <div class=\"col-md-3\">\r\n       
 
 
             
-            #line 26 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+            #line 31 "..\..\Dashboard\Pages\Html\Logging.cshtml"
    Write(Html.JobsSidebar());
 
             
@@ -110,7 +115,7 @@ WriteLiteral("\r\n    </div>\r\n    <div class=\"col-md-9\">\r\n        <h1 clas
 
 
             
-            #line 30 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+            #line 35 "..\..\Dashboard\Pages\Html\Logging.cshtml"
           
             if (!jobLogs.Any())
             {
@@ -118,12 +123,12 @@ WriteLiteral("\r\n    </div>\r\n    <div class=\"col-md-9\">\r\n        <h1 clas
             
             #line default
             #line hidden
-WriteLiteral("                <div class=\"tags\">\r\n                    There are no tags found y" +
+WriteLiteral("                <div class=\"logs\">\r\n                    There are no logs found y" +
 "et.\r\n                </div>\r\n");
 
 
             
-            #line 36 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+            #line 41 "..\..\Dashboard\Pages\Html\Logging.cshtml"
             }
             else
             {
@@ -135,7 +140,7 @@ WriteLiteral("                <div class=\"table-responsive\">\r\n              
 
 
             
-            #line 40 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+            #line 45 "..\..\Dashboard\Pages\Html\Logging.cshtml"
                Write(Html.PerPageSelector(pager));
 
             
@@ -155,7 +160,7 @@ WriteLiteral(@"
 
 
             
-            #line 50 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+            #line 55 "..\..\Dashboard\Pages\Html\Logging.cshtml"
                              foreach (var log in jobLogs)
                             {
 
@@ -167,7 +172,7 @@ WriteLiteral("                            <tr class=\"js-jobs-list-row\">\r\n   
 
 
             
-            #line 53 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+            #line 58 "..\..\Dashboard\Pages\Html\Logging.cshtml"
                                                  Write(log.LogLevel);
 
             
@@ -177,7 +182,7 @@ WriteLiteral("</td>\r\n                                <td>");
 
 
             
-            #line 54 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+            #line 59 "..\..\Dashboard\Pages\Html\Logging.cshtml"
                                Write(log.Message);
 
             
@@ -187,7 +192,7 @@ WriteLiteral("</td>\r\n                                <td class=\"min-width ali
 
 
             
-            #line 55 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+            #line 60 "..\..\Dashboard\Pages\Html\Logging.cshtml"
                                                              Write(Html.RelativeTime(@log.DateCreation));
 
             
@@ -197,7 +202,7 @@ WriteLiteral("</td>\r\n                            </tr>\r\n");
 
 
             
-            #line 57 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+            #line 62 "..\..\Dashboard\Pages\Html\Logging.cshtml"
                             }
 
             
@@ -208,7 +213,7 @@ WriteLiteral("                        </tbody>\r\n                    </table>\r
 
 
             
-            #line 60 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+            #line 65 "..\..\Dashboard\Pages\Html\Logging.cshtml"
                Write(Html.Paginator(pager));
 
             
@@ -218,7 +223,7 @@ WriteLiteral("\r\n                </div>\r\n");
 
 
             
-            #line 62 "..\..\Dashboard\Pages\Html\Logging.cshtml"
+            #line 67 "..\..\Dashboard\Pages\Html\Logging.cshtml"
             }
         
 

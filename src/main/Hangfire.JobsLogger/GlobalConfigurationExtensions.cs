@@ -23,7 +23,7 @@ namespace Hangfire.JobsLogger
             //TODO: Controllers - UI - Routing
             //JobHistoryRenderer.Register(ProcessingState.StateName, new ProcessingStateRenderer().Render);
 
-            DashboardRoutes.Routes.AddRazorPage("/jobs/logs", x => new Dashboard.Pages.Html.Logging());
+            DashboardRoutes.Routes.AddRazorPage("/jobs/logs/([0-9a-z\\-]+)", x => new Dashboard.Pages.Html.Logging());
 
             //The next line code is for testing :
             //JobHistoryRenderer.Register(SucceededState.StateName, new ProcessingStateRenderer().Render);
