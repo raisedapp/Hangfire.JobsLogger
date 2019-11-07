@@ -10,11 +10,11 @@ namespace Hangfire.JobsLogger
     {
         public LogLevel LogLevel { get; set; } = LogLevel.Information;
 
-        public Color LogTraceColor { get; set; } = Color.White; 
+        public Color LogTraceColor { get; set; } = Color.Green; 
 
-        public Color LogDebugColor { get; set; } = Color.GhostWhite;
+        public Color LogDebugColor { get; set; } = Color.DarkGreen;
 
-        public Color LogInformationColor { get; set; } = Color.Blue;
+        public Color LogInformationColor { get; set; } = Color.DarkBlue;
 
         public Color LogWarningColor { get; set; } = Color.Orange;
 

@@ -6,6 +6,7 @@
 @using Hangfire.Dashboard.Pages
 @using Hangfire.Dashboard.Resources
 @using Hangfire.JobsLogger.Server
+@using Hangfire.JobsLogger.Helper
 @inherits RazorPage
 @{
     Layout = new LayoutPage("Logs");
@@ -54,11 +55,17 @@
                         <tbody>
                             @foreach (var log in jobLogs)
                             {
-                            <tr class="js-jobs-list-row">
-                                <td class="min-width">@log.LogLevel</td>
-                                <td>@log.Message</td>
-                                <td class="min-width align-right">@Html.RelativeTime(@log.DateCreation)</td>
-                            </tr>
+                                var logColor = Util.GetColorByLogLevel(log.LogLevel);
+
+                                <tr class="js-jobs-list-row">
+                                    <td class="min-width">
+                                        <span class="badge" data-bind="style: { 'background-color': displayColor }" style="background-color: rgb(@logColor.R, @logColor.B, @logColor.G);">
+                                            <span class="text-center" style="text-decoration: none;">@log.LogLevel</span>
+                                        </span>
+                                    </td>
+                                    <td>@log.Message</td>
+                                    <td class="min-width align-right">@Html.RelativeTime(@log.DateCreation)</td>
+                                </tr>
                             }
                         </tbody>
                     </table>

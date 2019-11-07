@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Hangfire.JobsLogger.Server;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Resources;
 using System.Text;
@@ -22,6 +25,23 @@ namespace Hangfire.JobsLogger.Helper
         {
             return string
                 .Format(Common.LoggerKeyStorageName, seq.ToString("0000"), jobId);
+        }
+
+        public static Color GetColorByLogLevel(LogLevel logLevel) 
+        {
+            var color = Color.Transparent;
+
+            switch (logLevel)
+            {
+                case LogLevel.Trace: color = JobsLoggerFilter.Options.LogTraceColor; break;
+                case LogLevel.Debug: color = JobsLoggerFilter.Options.LogDebugColor;  break;
+                case LogLevel.Information: color = JobsLoggerFilter.Options.LogInformationColor;  break;
+                case LogLevel.Warning: color = JobsLoggerFilter.Options.LogWarningColor;  break;
+                case LogLevel.Error: color = JobsLoggerFilter.Options.LogErrorColor;  break;
+                case LogLevel.Critical: color = JobsLoggerFilter.Options.LogCriticalColor;  break;
+            }
+
+            return color;
         }
 
         public static string ReadStringResource(string resourceName)
