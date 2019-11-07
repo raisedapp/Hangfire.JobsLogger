@@ -10,7 +10,7 @@ namespace Hangfire.JobsLogger.Dashboard.Pages
     internal sealed class LoggerPage : RazorPage
     {
         public const string Title = "Logging";
-        public const string PageRoute = "/jobs/log";
+        public const string PageRoute = "/jobs/logs/([0-9a-z\\-]+)";
 
         private static readonly string PageHtml;
 

@@ -77,7 +77,6 @@ namespace Hangfire.JobsLogger.Server
             {
                 var logMessageModel = new LogMessage
                 {
-                    JobId = jobId,
                     LogLevel = logLevel,
                     DateCreation = DateTime.UtcNow,
                     Message = logMessage

@@ -18,18 +18,13 @@ namespace Hangfire.JobsLogger
 
             options = options ?? new JobsLoggerOptions();
 
+            //Add Filter Job to register logs during execution
             GlobalJobFilters.Filters.Add(new JobsLoggerFilter(options));
 
-            //TODO: Controllers - UI - Routing
-            //JobHistoryRenderer.Register(ProcessingState.StateName, new ProcessingStateRenderer().Render);
-
-            DashboardRoutes.Routes.AddRazorPage("/jobs/logs", x => new Dashboard.Pages.Html.Logging());
-
-            //The next line code is for testing :
-            //JobHistoryRenderer.Register(SucceededState.StateName, new ProcessingStateRenderer().Render);
-            //JobHistoryRenderer.Register("Loggin", new ProcessingStateRenderer().Render);
-
-            // register server filter for jobs
+            //Add Page to see logs
+            DashboardRoutes.Routes.AddRazorPage(Dashboard.Pages.LoggerPage.PageRoute,
+                x => new Dashboard.Pages.Html.Logging());
+            JobHistoryRenderer.Register(EnqueuedState.StateName, new EnqueuedStateRenderer().Render);
 
             return configuration;
         }

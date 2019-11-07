@@ -10,11 +10,11 @@ namespace Hangfire.JobsLogger.Server
 {
     internal class JobsLoggerFilter : IServerFilter
     {
-        private readonly JobsLoggerOptions _options;
+        public static JobsLoggerOptions Options { get; private set; }
 
         public JobsLoggerFilter(JobsLoggerOptions options) 
         {
-            _options = options ?? new JobsLoggerOptions();
+            Options = options ?? new JobsLoggerOptions();
         }
 
         public void OnPerforming(PerformingContext filterContext)
@@ -24,7 +24,7 @@ namespace Hangfire.JobsLogger.Server
 
             filterContext.Items[item] = loggerContext;
 
-            loggerContext.FromPerformContext(filterContext, _options);
+            loggerContext.FromPerformContext(filterContext, Options);
         }
 
         public void OnPerformed(PerformedContext filterContext)

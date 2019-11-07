@@ -6,20 +6,44 @@ using System.Text;
 
 namespace Hangfire.JobsLogger
 {
+    /// <summary>
+    /// Options for configuring the Hangfire.JobsLogger plugin
+    /// </summary>
     public class JobsLoggerOptions
     {
+        /// <summary>
+        /// Set the log level to be stored in hangfire
+        /// </summary>
         public LogLevel LogLevel { get; set; } = LogLevel.Information;
 
-        public Color LogTraceColor { get; set; } = Color.White; 
+        /// <summary>
+        /// Color that will be used to display log messages of this type
+        /// </summary>
+        public Color LogTraceColor { get; set; } = Color.LightGreen;
 
-        public Color LogDebugColor { get; set; } = Color.GhostWhite;
+        /// <summary>
+        /// Color that will be used to display log messages of this type
+        /// </summary>
+        public Color LogDebugColor { get; set; } = Color.DarkGreen;
 
+        /// <summary>
+        /// Color that will be used to display log messages of this type
+        /// </summary>
         public Color LogInformationColor { get; set; } = Color.Blue;
 
-        public Color LogWarningColor { get; set; } = Color.Orange;
+        /// <summary>
+        /// Color that will be used to display log messages of this type
+        /// </summary>
+        public Color LogWarningColor { get; set; } = Color.DarkOrange;
 
+        /// <summary>
+        /// Color that will be used to display log messages of this type
+        /// </summary>
         public Color LogErrorColor { get; set; } = Color.Red;
 
+        /// <summary>
+        /// Color that will be used to display log messages of this type
+        /// </summary>
         public Color LogCriticalColor { get; set; } = Color.DarkRed;
     }
 }

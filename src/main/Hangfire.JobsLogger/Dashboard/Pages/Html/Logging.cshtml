@@ -1,19 +1,27 @@
 ﻿@* Generator: Template TypeVisibility: Internal GeneratePrettyNames: True *@
 @using System
 @using System.Linq
+@using System.IO
 @using System.Text.RegularExpressions
 @using Hangfire.Dashboard
 @using Hangfire.Dashboard.Pages
 @using Hangfire.Dashboard.Resources
 @using Hangfire.JobsLogger.Server
+@using Hangfire.JobsLogger.Helper
+@using Hangfire.JobsLogger.Dashboard.Pages
 @inherits RazorPage
 @{
     Layout = new LayoutPage("Logs");
-
     var loggerContext = new LoggerContext();
-    int.TryParse(Query("from"), out var from);
-    int.TryParse(Query("count"), out var perPage);
-    string jobId = Query("jobId");
+
+    string jobId = Util.GetFileNameFromURL(RequestPath);
+
+    if (!int.TryParse(Query("from"), out int from) ||
+        !int.TryParse(Query("count"), out int perPage))
+    {
+        from = 0;
+        perPage = 10;
+    }
 
     var totalLogs = loggerContext.GetCounterValue(Storage.GetConnection(), jobId);
     var jobLogs = loggerContext.GetLogMessagesByJobId(Storage.GetConnection(), jobId, from, perPage);
@@ -30,8 +38,8 @@
         @{
             if (!jobLogs.Any())
             {
-                <div class="tags">
-                    There are no tags found yet.
+                <div class="logs">
+                    There are no logs found yet.
                 </div>
             }
             else
@@ -49,11 +57,17 @@
                         <tbody>
                             @foreach (var log in jobLogs)
                             {
-                            <tr class="js-jobs-list-row">
-                                <td class="min-width">@log.LogLevel</td>
-                                <td>@log.Message</td>
-                                <td class="min-width align-right">@Html.RelativeTime(@log.DateCreation)</td>
-                            </tr>
+                                var logColor = Util.GetColorByLogLevel(log.LogLevel);
+
+                                <tr class="js-jobs-list-row">
+                                    <td class="min-width">
+                                        <span class="badge" style="background-color: rgba(@logColor.R, @logColor.G, @logColor.B, @logColor.A);">
+                                            <span class="text-center" style="text-decoration: none;">@log.LogLevel</span>
+                                        </span>
+                                    </td>
+                                    <td>@log.Message</td>
+                                    <td class="min-width align-right">@Html.RelativeTime(@log.DateCreation)</td>
+                                </tr>
                             }
                         </tbody>
                     </table>
