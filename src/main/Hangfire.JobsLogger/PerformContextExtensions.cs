@@ -67,7 +67,7 @@ namespace Hangfire.JobsLogger
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error Write Log. Exception Message = {ex.Message}, StackTrace = {ex.ToString()}");
+                Trace.WriteLine($"Error Write Log. Exception Message = {ex.Message}, StackTrace = {ex.ToString()}");
             }
         }
     }
