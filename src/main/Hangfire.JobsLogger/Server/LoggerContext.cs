@@ -43,16 +43,24 @@ namespace Hangfire.JobsLogger.Server
         public int GetCounterValue(IStorageConnection connection, string jobId, bool plus = false, TimeSpan? jobExpirationTimeout = null) 
         {
             string counterName = Util.GetCounterName(jobId);
-            var counterHash = connection.GetAllEntriesFromHash(counterName);
-            int counterValue = counterHash != null && counterHash.Any() ?
-                int.Parse(counterHash.FirstOrDefault().Value) : 0;
+            int counterValue = 0;
 
-            if (plus) 
+            if (!plus) 
+            {
+                var counterHash = connection.GetAllEntriesFromHash(counterName);
+                counterValue = counterHash != null && counterHash.Any() ?
+                    int.Parse(counterHash.FirstOrDefault().Value) : 0;
+            }
+            else
             {
                 using (var writeTransaction = connection.CreateWriteTransaction())
                 {
-                    lock (_lockObj) 
+                    lock (_lockObj)
                     {
+                        var counterHash = connection.GetAllEntriesFromHash(counterName);
+                        counterValue = counterHash != null && counterHash.Any() ?
+                            int.Parse(counterHash.FirstOrDefault().Value) : 0;
+
                         var dictionaryLogCounter = new Dictionary<string, string>
                         {
                             [counterName] = Convert.ToString(++counterValue)
@@ -112,8 +120,9 @@ namespace Hangfire.JobsLogger.Server
             {
                 int counterValue = GetCounterValue(connection, jobId);
                 int toValue = count > counterValue ? counterValue : count;
+                int fromValue = from <= 0 ? 1 : from;
 
-                foreach (int i in Enumerable.Range(from, toValue)) 
+                foreach (int i in Enumerable.Range(fromValue, toValue)) 
                 {
                     var logMessageHash = connection.GetAllEntriesFromHash(Util.GetKeyName(i, jobId));
 

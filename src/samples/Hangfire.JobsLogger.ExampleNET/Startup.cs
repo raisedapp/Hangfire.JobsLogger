@@ -13,7 +13,7 @@ namespace Hangfire.JobsLogger.ExampleNET
         public void Configuration(IAppBuilder app)
         {
             app.UseHangfireServer();
-            app.UseHangfireDashboard("");
+            app.UseHangfireDashboard(string.Empty);
 
             var taskExample = new TaskExample();
             RecurringJob.AddOrUpdate(() => taskExample.TaskMethod(null), Cron.Minutely);
