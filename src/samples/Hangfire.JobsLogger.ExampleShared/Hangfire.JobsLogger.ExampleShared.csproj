@@ -5,7 +5,7 @@
     <Authors>RaisedApp</Authors>
     <PackageProjectUrl>https://github.com/raisedapp/Hangfire.JobsLogger</PackageProjectUrl>
     <RepositoryUrl>https://github.com/raisedapp/Hangfire.JobsLogger</RepositoryUrl>
-    <Copyright>Copyright ©  2019</Copyright>
+    <Copyright>Copyright © 2019 - Present</Copyright>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 

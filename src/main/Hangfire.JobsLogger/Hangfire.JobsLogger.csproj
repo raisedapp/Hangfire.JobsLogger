@@ -7,14 +7,21 @@
   </PropertyGroup>  
   <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
     <Authors>RaisedApp</Authors>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/raisedapp/Hangfire.JobsLogger</PackageProjectUrl>
     <RepositoryUrl>https://github.com/raisedapp/Hangfire.JobsLogger</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Description>A Hangfire extension to store a log during job execution</Description>
-    <Copyright>Copyright © 2019</Copyright>
+    <Copyright>Copyright © 2019 - Present</Copyright>
+    <title>Hangfire JobsLogger</title>
+    <owners>RaisedApp</owners>
+    <PackageReleaseNotes>
+      0.1.2
+      - Change Default LogLevel to Trace
+      - IsEnabled method fixed (to know when to log a log message, according to the level that has been set)
+    </PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>Hangfire Hangfire-Extension Logging RecurringJob</PackageTags>
   </PropertyGroup>
