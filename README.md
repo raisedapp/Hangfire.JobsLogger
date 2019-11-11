@@ -65,7 +65,7 @@ Below is a description of them:
 
 `Option` | `Description` | `Default Value`
 --- | --- | ---
-**LogLevel** | Set the log level to be stored in hangfire | **Microsoft.Extensions.Logging.LogLevel.Information**
+**LogLevel** | Set the log level to be stored in hangfire | **Microsoft.Extensions.Logging.LogLevel.Trace**
 **LogTraceColor** |  Color that will be used to display log messages of this type | **System.Drawing.Color.LightGreen**
 **LogDebugColor** |  Color that will be used to display log messages of this type | **System.Drawing.Color.DarkGreen**
 **LogInformationColor** |  Color that will be used to display log messages of this type | **System.Drawing.Color.Blue**

@@ -14,7 +14,7 @@ namespace Hangfire.JobsLogger
         /// <summary>
         /// Set the log level to be stored in hangfire
         /// </summary>
-        public LogLevel LogLevel { get; set; } = LogLevel.Information;
+        public LogLevel LogLevel { get; set; } = LogLevel.Trace;
 
         /// <summary>
         /// Color that will be used to display log messages of this type

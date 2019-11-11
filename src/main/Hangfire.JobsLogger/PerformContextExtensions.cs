@@ -55,7 +55,7 @@ namespace Hangfire.JobsLogger
                 var item = Util.GetLoggerContextName(jobId);
 
                 if (context.Items[item] is LoggerContext loggerContext && 
-                    loggerContext.IsEnabled())
+                    loggerContext.IsEnabled(logLevel))
                 {
                     using (var connection = context.Storage.GetConnection()) 
                     {

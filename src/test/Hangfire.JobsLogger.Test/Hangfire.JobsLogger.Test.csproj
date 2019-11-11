@@ -15,7 +15,7 @@
 
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
 
-    <Copyright>Copyright ©  2019</Copyright>
+    <Copyright>Copyright © 2019 - Present</Copyright>
   </PropertyGroup>
 
   <ItemGroup>

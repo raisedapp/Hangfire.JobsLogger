@@ -35,9 +35,10 @@ namespace Hangfire.JobsLogger.Server
             return _options;
         }
 
-        public bool IsEnabled()
+        public bool IsEnabled(LogLevel logLevel)
         {
-            return _options.LogLevel != LogLevel.None;
+            return _options.LogLevel != LogLevel.None &&
+                logLevel >= _options.LogLevel;
         }
 
         public int GetCounterValue(IStorageConnection connection, string jobId, bool plus = false, TimeSpan? jobExpirationTimeout = null) 

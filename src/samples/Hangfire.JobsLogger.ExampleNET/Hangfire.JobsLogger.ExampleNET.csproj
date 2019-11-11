@@ -47,8 +47,8 @@
     <Reference Include="Hangfire.Core, Version=1.7.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Hangfire.Core.1.7.6\lib\net46\Hangfire.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Hangfire.LiteDB">
-      <HintPath>..\..\..\content\net45\Hangfire.LiteDB.dll</HintPath>
+    <Reference Include="Hangfire.LiteDB, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Hangfire.LiteDB.0.3.0\lib\net45\Hangfire.LiteDB.dll</HintPath>
     </Reference>
     <Reference Include="Hangfire.SqlServer, Version=1.7.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Hangfire.SqlServer.1.7.6\lib\net45\Hangfire.SqlServer.dll</HintPath>
