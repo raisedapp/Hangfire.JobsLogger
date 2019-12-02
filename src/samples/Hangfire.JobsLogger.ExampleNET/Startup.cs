@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if WINDOWS
+using System;
 using System.Threading.Tasks;
 using Hangfire.JobsLogger.ExampleShared;
 using Microsoft.Owin;
@@ -20,3 +21,4 @@ namespace Hangfire.JobsLogger.ExampleNET
         }
     }
 }
+#endif

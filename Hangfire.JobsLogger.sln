@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.travis.yml = .travis.yml
 		.circleci\config.yml = .circleci\config.yml
+		.github\workflows\dotnetcore.yml = .github\workflows\dotnetcore.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hangfire.JobsLogger", "src\main\Hangfire.JobsLogger\Hangfire.JobsLogger.csproj", "{109BE60E-9731-4CAD-8C4A-D8EDF8835EE2}"
