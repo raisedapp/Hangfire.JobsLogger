@@ -21,13 +21,11 @@ namespace Hangfire.JobsLogger.Server
 
         private readonly object _lockObj = new object();
 
-        public LoggerContext FromPerformContext(PerformContext context, 
+        public void SetPerformContext(PerformContext context, 
             JobsLoggerOptions options)
         {
             _context = context;
             _options = options;
-
-            return _context?.Items[Util.GetLoggerContextName(context.BackgroundJob.Id)] as LoggerContext ?? null;
         }
 
         public JobsLoggerOptions GetOptions() 
