@@ -17,8 +17,15 @@ namespace Hangfire.JobsLogger.ExampleCore
             CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) { 
+            var config = WebHost.CreateDefaultBuilder(args)
+                .ConfigureLogging((logging) =>
+                {
+                    logging.ClearProviders();
+                })
                 .UseStartup<Startup>();
+
+            return config;
+        }
     }
 }

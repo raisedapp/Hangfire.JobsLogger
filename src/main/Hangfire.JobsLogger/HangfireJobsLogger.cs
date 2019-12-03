@@ -11,12 +11,13 @@ namespace Hangfire.JobsLogger
 {
     public class HangfireJobsLogger : ILogger
     {
-        public string JobId { get; private set; }
-
         public void Log(string jobId, LogLevel logLevel, string logMessage)
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(jobId))
+                    return;
+
                 var item = Util.GetLoggerContextName(jobId);
 
                 if (JobsLoggerFilter.Loggers[item] is LoggerContext loggerContext &&
@@ -44,11 +45,11 @@ namespace Hangfire.JobsLogger
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
-            if (string.IsNullOrWhiteSpace(JobId))
-                return;
+            string jobId = string.Empty;
 
-            var message = formatter(state, exception);
-            Log(JobId, logLevel, message);
+            string message = formatter(state, exception);
+
+            Log(jobId, logLevel, message);
         }
     }
 }
