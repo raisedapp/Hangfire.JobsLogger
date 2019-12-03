@@ -1,4 +1,3 @@
-#if WINDOWS
 using Hangfire.LiteDB;
 using Hangfire.JobsLogger;
 using System;
@@ -22,4 +21,3 @@ namespace Hangfire.JobsLogger.ExampleNET
         }
     }
 }
-#endif
