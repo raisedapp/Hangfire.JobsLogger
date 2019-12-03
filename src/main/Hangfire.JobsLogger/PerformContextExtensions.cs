@@ -51,7 +51,7 @@ namespace Hangfire.JobsLogger
 
         public static void Log(this PerformContext context, LogLevel logLevel, string logMessage)
         {
-            _log.Log(context, logLevel, logMessage);
+            _log.Log(context.BackgroundJob.Id, logLevel, logMessage);
         }
     }
 }

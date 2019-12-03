@@ -11,18 +11,19 @@ namespace Hangfire.JobsLogger
 {
     public class HangfireJobsLogger : ILogger
     {
-        public PerformContext PfContext { get; private set; }
+        public string JobId { get; private set; }
 
-        public void Log(PerformContext context, LogLevel logLevel, string logMessage)
+        public void Log(string jobId, LogLevel logLevel, string logMessage)
         {
             try
             {
-                var jobId = context.BackgroundJob.Id;
                 var item = Util.GetLoggerContextName(jobId);
 
                 if (JobsLoggerFilter.Loggers[item] is LoggerContext loggerContext &&
                     loggerContext.IsEnabled(logLevel))
                 {
+                    var context = loggerContext.PfContext;
+
                     using (var connection = context.Storage.GetConnection())
                     {
                         var jobExpirationTimeout = context.Storage.JobExpirationTimeout;
@@ -43,11 +44,11 @@ namespace Hangfire.JobsLogger
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
-            if (PfContext == null)
+            if (string.IsNullOrWhiteSpace(JobId))
                 return;
 
             var message = formatter(state, exception);
-            Log(PfContext, logLevel, message);
+            Log(JobId, logLevel, message);
         }
     }
 }
