@@ -1,5 +1,8 @@
 # Hangfire.JobsLogger
 [![NuGet](https://buildstats.info/nuget/Hangfire.JobsLogger)](https://www.nuget.org/packages/Hangfire.JobsLogger)
+[![Actions Status](https://github.com/raisedapp/Hangfire.JobsLogger/workflows/CI-HF-JOBSLOGGER/badge.svg)](https://github.com/raisedapp/Hangfire.JobsLogger/actions)
+[![Official Site](https://img.shields.io/badge/site-hangfire.io-blue.svg)](http://hangfire.io)
+[![License MIT](https://img.shields.io/badge/license-MIT-green.svg)](http://opensource.org/licenses/MIT)
 
 ## Overview
 A Hangfire extension to store a log during job execution
