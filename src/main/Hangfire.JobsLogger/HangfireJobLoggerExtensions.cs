@@ -1,13 +1,10 @@
 using System;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Internal;
 
 namespace Hangfire.JobsLogger
 {
     public static class HangfireJobLoggerExtensions
     {
-        private static readonly Func<FormattedLogValues, Exception, string> _messageFormatter = MessageFormatter;
-
         public static void LogDebug(this ILogger logger, string jobId, EventId eventId, Exception exception, string message, params object[] args)
         {
             logger.Log(LogLevel.Debug, jobId, eventId, exception, message, args);
@@ -151,16 +148,9 @@ namespace Hangfire.JobsLogger
             {
                 throw new ArgumentNullException(nameof(logger));
             }
-
-            var logMessage = new FormattedLogValues(message, args);
             
             HangfireJobsLogger.Log(jobId, logLevel, message);
-            logger.Log(logLevel, eventId, logMessage, exception, _messageFormatter);
-        }
-        
-        private static string MessageFormatter(FormattedLogValues state, Exception error)
-        {
-            return state.ToString();
+            logger.Log(logLevel, eventId, exception, message, args);
         }
     }
 }
