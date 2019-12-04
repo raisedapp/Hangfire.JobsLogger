@@ -49,26 +49,7 @@ namespace Hangfire.JobsLogger
 
         public static void Log(this PerformContext context, LogLevel logLevel, string logMessage)
         {
-            try
-            {
-                var jobId = context.BackgroundJob.Id;
-                var item = Util.GetLoggerContextName(jobId);
-
-                if (context.Items[item] is LoggerContext loggerContext && 
-                    loggerContext.IsEnabled(logLevel))
-                {
-                    using (var connection = context.Storage.GetConnection()) 
-                    {
-                        var jobExpirationTimeout = context.Storage.JobExpirationTimeout;
-
-                        loggerContext.SaveLogMessage(connection, jobId, jobExpirationTimeout, logLevel, logMessage);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Trace.WriteLine($"Error Write Log. Exception Message = {ex.Message}, StackTrace = {ex.ToString()}");
-            }
+            HangfireJobsLogger.Log(context.BackgroundJob.Id, logLevel, logMessage);
         }
     }
 }

@@ -11,6 +11,11 @@ namespace Hangfire.JobsLogger
 {
     public static class GlobalConfigurationExtensions
     {
+        public static IGlobalConfiguration UseJobsLogger(this IGlobalConfiguration configuration)
+        {
+            return UseJobsLogger(configuration, null);
+        }
+
         public static IGlobalConfiguration UseJobsLogger(this IGlobalConfiguration configuration,
             JobsLoggerOptions options = null)
         {

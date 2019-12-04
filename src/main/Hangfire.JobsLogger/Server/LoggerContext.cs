@@ -16,18 +16,16 @@ namespace Hangfire.JobsLogger.Server
 {
     internal class LoggerContext
     {
-        private PerformContext _context;
+        public PerformContext PfContext { get; private set; }
         private JobsLoggerOptions _options;
 
         private readonly object _lockObj = new object();
 
-        public LoggerContext FromPerformContext(PerformContext context, 
+        public void SetPerformContext(PerformContext context, 
             JobsLoggerOptions options)
         {
-            _context = context;
+            PfContext = context;
             _options = options;
-
-            return _context?.Items[Util.GetLoggerContextName(context.BackgroundJob.Id)] as LoggerContext ?? null;
         }
 
         public JobsLoggerOptions GetOptions() 

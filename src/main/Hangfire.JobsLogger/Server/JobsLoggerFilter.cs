@@ -5,11 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Hangfire.JobsLogger.Helper;
+using System.Collections.Concurrent;
 
 namespace Hangfire.JobsLogger.Server
 {
     internal class JobsLoggerFilter : IServerFilter
     {
+        public static ConcurrentDictionary<string, LoggerContext> Loggers { get; private set; } 
+            = new ConcurrentDictionary<string, LoggerContext>();
         public static JobsLoggerOptions Options { get; private set; }
 
         public JobsLoggerFilter(JobsLoggerOptions options) 
@@ -22,15 +25,15 @@ namespace Hangfire.JobsLogger.Server
             var loggerContext = new LoggerContext();
             string item = Util.GetLoggerContextName(filterContext.BackgroundJob.Id);
 
-            filterContext.Items[item] = loggerContext;
-
-            loggerContext.FromPerformContext(filterContext, Options);
+            Loggers.TryAdd(item, loggerContext);
+            loggerContext.SetPerformContext(filterContext, Options);
         }
 
         public void OnPerformed(PerformedContext filterContext)
         {
             string item = Util.GetLoggerContextName(filterContext.BackgroundJob.Id);
-            filterContext.Items.Remove(item);
+            
+            Loggers.TryRemove(item, out _);
         }
     }
 }
