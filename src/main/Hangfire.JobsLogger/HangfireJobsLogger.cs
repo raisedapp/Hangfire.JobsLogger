@@ -11,7 +11,7 @@ namespace Hangfire.JobsLogger
 {
     public class HangfireJobsLogger : ILogger
     {
-        public void Log(string jobId, LogLevel logLevel, string logMessage)
+        public static void Log(string jobId, LogLevel logLevel, string logMessage)
         {
             try
             {

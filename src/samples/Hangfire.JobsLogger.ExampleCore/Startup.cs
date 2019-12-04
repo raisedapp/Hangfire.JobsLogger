@@ -31,7 +31,6 @@ namespace Hangfire.JobsLogger.ExampleCore
                 app.UseDeveloperExceptionPage();
             }
 
-            loggerFactory.AddProvider(new HangfireJobLoggerProvider());
             ApplicationLogging.LoggerFactory = loggerFactory;
 
             app.UseHangfireServer();

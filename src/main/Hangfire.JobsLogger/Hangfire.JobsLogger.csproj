@@ -18,9 +18,10 @@
     <title>Hangfire JobsLogger</title>
     <owners>RaisedApp</owners>
     <PackageReleaseNotes>
-      0.1.2
-      - Change Default LogLevel to Trace
-      - IsEnabled method fixed (to know when to log a log message, according to the level that has been set)
+      0.2.0
+      - Add Extensios Methods for ILogger Interface 
+      - Improve Performance
+      - Code Cleanup
     </PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageTags>Hangfire Hangfire-Extension Logging RecurringJob</PackageTags>

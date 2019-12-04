@@ -17,8 +17,6 @@ namespace Hangfire.JobsLogger
 {
     public static class PerformContextExtensions
     {
-        private static readonly HangfireJobsLogger _log = new HangfireJobsLogger();
-
         public static void LogTrace(this PerformContext context, string logMessage)
         {
             Log(context, LogLevel.Trace, logMessage);
@@ -51,7 +49,7 @@ namespace Hangfire.JobsLogger
 
         public static void Log(this PerformContext context, LogLevel logLevel, string logMessage)
         {
-            _log.Log(context.BackgroundJob.Id, logLevel, logMessage);
+            HangfireJobsLogger.Log(context.BackgroundJob.Id, logLevel, logMessage);
         }
     }
 }

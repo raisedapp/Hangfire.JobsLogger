@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Hangfire.JobsLogger
 {
-    /// <summary>
+    /// <summary>github
     /// Options for configuring the Hangfire.JobsLogger plugin
     /// </summary>
     public class JobsLoggerOptions
