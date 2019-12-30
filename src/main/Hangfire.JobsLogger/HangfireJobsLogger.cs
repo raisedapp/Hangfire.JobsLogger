@@ -11,6 +11,8 @@ namespace Hangfire.JobsLogger
 {
     public class HangfireJobsLogger : ILogger
     {
+        private static readonly Logging.ILog HangfireInternalLog = Logging.LogProvider.For<HangfireJobsLogger>();
+
         public static void Log(string jobId, LogLevel logLevel, string logMessage)
         {
             try
@@ -35,7 +37,10 @@ namespace Hangfire.JobsLogger
             }
             catch (Exception ex)
             {
-                Trace.WriteLine($"Error Write Log. Exception Message = {ex.Message}, StackTrace = {ex.ToString()}");
+                var logLine = $"Error Write Log. Exception Message = {ex.Message}, StackTrace = {ex.ToString()}";
+
+                HangfireInternalLog.Log(Logging.LogLevel.Error, () => logLine);
+                Trace.WriteLine(logLine);
             }
         }
 

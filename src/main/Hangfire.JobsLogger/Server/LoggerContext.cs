@@ -19,6 +19,8 @@ namespace Hangfire.JobsLogger.Server
         public PerformContext PfContext { get; private set; }
         private JobsLoggerOptions _options;
 
+        private static readonly Logging.ILog HangfireInternalLog = Logging.LogProvider.For<HangfireJobsLogger>();
+
         private readonly object _lockObj = new object();
 
         public void SetPerformContext(PerformContext context, 
@@ -52,9 +54,9 @@ namespace Hangfire.JobsLogger.Server
             }
             else
             {
-                using (var writeTransaction = connection.CreateWriteTransaction())
+                lock (_lockObj)
                 {
-                    lock (_lockObj)
+                    using (var writeTransaction = connection.CreateWriteTransaction())
                     {
                         var counterHash = connection.GetAllEntriesFromHash(counterName);
                         counterValue = counterHash != null && counterHash.Any() ?
@@ -89,7 +91,6 @@ namespace Hangfire.JobsLogger.Server
                     Message = logMessage
                 };
 
-                string counterName = Util.GetCounterName(jobId);
                 int counterValue = GetCounterValue(connection, jobId, true, jobExpirationTimeout);
 
                 var keyName = Util.GetKeyName(counterValue, jobId);
@@ -135,7 +136,10 @@ namespace Hangfire.JobsLogger.Server
             }
             catch (Exception ex)
             {
-                Debug.WriteLine($"Error Read Log Messages. Exception Message = {ex.Message}, StackTrace = {ex.ToString()}");
+                var logLine = $"Error Read Log Messages. Exception Message = {ex.Message}, StackTrace = {ex.ToString()}";
+
+                HangfireInternalLog.Log(Logging.LogLevel.Error, () => logLine);
+                Debug.WriteLine(logLine);
             }
 
             return logMessages;
