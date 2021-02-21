@@ -1,6 +1,7 @@
 # Hangfire.JobsLogger
 [![NuGet](https://buildstats.info/nuget/Hangfire.JobsLogger)](https://www.nuget.org/packages/Hangfire.JobsLogger)
-[![Actions Status](https://github.com/raisedapp/Hangfire.JobsLogger/workflows/CI-HF-JOBSLOGGER/badge.svg)](https://github.com/raisedapp/Hangfire.JobsLogger/actions)
+[![Actions Status Master](https://github.com/raisedapp/Hangfire.JobsLogger/workflows/CI-HF-JOBSLOGGER/badge.svg?branch=master)](https://github.com/raisedapp/Hangfire.JobsLogger/actions)
+[![Actions Status Develop](https://github.com/raisedapp/Hangfire.JobsLogger/workflows/CI-HF-JOBSLOGGER/badge.svg?branch=develop)](https://github.com/raisedapp/Hangfire.JobsLogger/actions)
 [![Official Site](https://img.shields.io/badge/site-hangfire.io-blue.svg)](http://hangfire.io)
 [![License MIT](https://img.shields.io/badge/license-MIT-green.svg)](http://opensource.org/licenses/MIT)
 
@@ -8,12 +9,6 @@
 A Hangfire extension to store a log during job execution
 
 ![joblogshistory](content/job_logs_history.png)
-
-## Build Status
-`Platform` | `Master` | `Develop`
---- | --- | ---
-**Windows** | [![Build Status](https://circleci.com/gh/raisedapp/Hangfire.JobsLogger/tree/master.svg?style=svg)](https://circleci.com/gh/raisedapp/Hangfire.JobsLogger/tree/master) | [![Build Status](https://circleci.com/gh/raisedapp/Hangfire.JobsLogger/tree/develop.svg?style=svg)](https://circleci.com/gh/raisedapp/Hangfire.JobsLogger/tree/develop)
-**Linux / Mac OS** | [![Build Status](https://travis-ci.org/raisedapp/Hangfire.JobsLogger.svg?branch=master)](https://travis-ci.org/raisedapp/Hangfire.JobsLogger/) | [![Build Status](https://travis-ci.org/raisedapp/Hangfire.JobsLogger.svg?branch=develop)](https://travis-ci.org/raisedapp/Hangfire.JobsLogger/)
 
 ## Installation
 Install a package from Nuget. 

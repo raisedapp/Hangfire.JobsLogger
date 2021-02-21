@@ -1,11 +1,8 @@
 ﻿using Hangfire.JobsLogger.Helper;
 using Hangfire.JobsLogger.Server;
-using Hangfire.Server;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 
 namespace Hangfire.JobsLogger
 {
@@ -37,7 +34,7 @@ namespace Hangfire.JobsLogger
             }
             catch (Exception ex)
             {
-                var logLine = $"Error Write Log. Exception Message = {ex.Message}, StackTrace = {ex.ToString()}";
+                var logLine = $"Error Write Log. Exception Message = {ex.Message}, StackTrace = {ex}";
 
                 HangfireInternalLog.Log(Logging.LogLevel.Error, () => logLine);
                 Trace.WriteLine(logLine);
