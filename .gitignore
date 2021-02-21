@@ -329,3 +329,4 @@ ASALocalRun/
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
 /src/samples/Hangfire.JobsLogger.ExampleCore/Hangfire.db
+/src/samples/Hangfire.JobsLogger.ExampleCore/Hangfire-log.db
